@@ -1,0 +1,33 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editors / IDE
+.vscode/
+*.code-workspace
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Dependencies (future-proofing, none currently used)
+node_modules/
+
+# Build output (future-proofing, none currently used)
+dist/
+build/
+
+# Environment / secrets
+.env
+.env.*
+*.pem
+*.key
+
+# OS-generated
+Thumbs.db
+
+# Raw/unreviewed source photos (contains unredacted client info) — never publish
+photos stage /
+
