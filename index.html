@@ -5,25 +5,55 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Benoît Gadret — Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #0f0e0c;
-    --cream: #f5f0e8;
-    --warm: #e8e0d0;
-    --accent: #c8442a;
-    --muted: #8a8070;
-    --card-border: #d0c8b8;
+    /* Base palette */
+    --ink: #111111;
+    --cream: #e6e6e6;
+    --warm: #f2f2f2;
+    --panel: #fafafa;
+    --accent: #1b4d3e;
+    --on-accent: var(--cream);
+    --muted: #4d4d4d;
+    --card-border: #111111;
+
+    /* Status (defined for completeness; no form/alert UI currently uses them) */
+    --success: #6b8f71;
+    --error: #b5533c;
+
+    /* System tokens */
+    --radius: 0;
+    --border-w: 3px;
+    --border-w-thin: 1px;
+    --shadow-offset: 4px;
+    --shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--ink);
+    --shadow-sm: 3px 3px 0 0 var(--ink);
+
+    /* Fonts */
+    --font-display: 'Archivo Black', 'Arial Black', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Space Mono', monospace;
+    --font-body: 'Inter', 'DM Sans', sans-serif;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: var(--cream);
+    background-color: var(--cream);
     color: var(--ink);
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-body);
+    font-weight: 400;
     min-height: 100vh;
     cursor: default;
+  }
+
+  a { color: inherit; }
+
+  a:focus-visible,
+  button:focus-visible,
+  [onclick]:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
   }
 
   /* HERO */
@@ -34,11 +64,12 @@
     justify-content: center;
     padding: 6rem 4rem 4rem;
     position: relative;
-    border-bottom: 1px solid var(--card-border);
+    border-bottom: var(--border-w) solid var(--ink);
+    background: var(--warm);
   }
 
   .hero-eyebrow {
-    font-family: 'DM Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 0.7rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -49,11 +80,12 @@
   }
 
   .hero-name {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(4rem, 10vw, 9rem);
-    font-weight: 900;
-    line-height: 0.9;
-    letter-spacing: -0.02em;
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: clamp(3.4rem, 9vw, 7.5rem);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
     margin-bottom: 2rem;
     opacity: 0;
     animation: fadeUp 0.8s ease forwards 0.4s;
@@ -62,15 +94,16 @@
   .hero-name span {
     display: block;
     color: var(--accent);
-    font-style: italic;
+    font-style: normal;
     font-weight: 400;
+    -webkit-text-stroke: 2px var(--ink);
   }
 
   .hero-sub {
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
+    font-family: var(--font-body);
+    font-weight: 400;
     font-size: clamp(1rem, 2vw, 1.2rem);
-    color: var(--muted);
+    color: var(--ink);
     max-width: 480px;
     line-height: 1.6;
     opacity: 0;
@@ -81,7 +114,7 @@
     position: absolute;
     bottom: 2.5rem;
     right: 4rem;
-    font-family: 'DM Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 0.65rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
@@ -98,18 +131,22 @@
     display: block;
     width: 40px;
     height: 1px;
-    background: var(--muted);
+    background: var(--ink);
   }
 
   .hero-number {
     position: absolute;
     top: 4rem;
     right: 4rem;
-    font-family: 'Playfair Display', serif;
-    font-size: 0.85rem;
-    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: var(--ink);
     opacity: 0;
     animation: fadeUp 0.8s ease forwards 0.3s;
+    border: var(--border-w-thin) solid var(--ink);
+    padding: 0.3rem 0.6rem;
+    background: var(--panel);
   }
 
   /* NAV STRIP */
@@ -117,49 +154,54 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    background: var(--cream);
-    border-bottom: 1px solid var(--card-border);
+    background: var(--panel);
+    border-bottom: var(--border-w) solid var(--ink);
     display: flex;
     align-items: center;
     padding: 0 4rem;
-    height: 56px;
+    height: 60px;
     gap: 0;
   }
 
   .nav-strip a {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--ink);
     text-decoration: none;
     padding: 0 1.2rem;
     height: 100%;
     display: flex;
     align-items: center;
-    border-right: 1px solid var(--card-border);
-    transition: color 0.2s, background 0.2s;
+    border-right: var(--border-w-thin) solid var(--ink);
+    transition: color 0.15s, background 0.15s;
   }
 
-  .nav-strip a:first-child { border-left: 1px solid var(--card-border); }
+  .nav-strip a:first-child { border-left: var(--border-w-thin) solid var(--ink); }
 
   .nav-strip a:hover {
-    color: var(--ink);
-    background: var(--warm);
+    color: var(--on-accent);
+    background: var(--accent);
   }
 
   .nav-name {
-    margin-left: auto;
-    font-family: 'Playfair Display', serif;
-    font-size: 0.9rem;
-    font-style: italic;
-    color: var(--muted);
+    order: -1;
+    margin-right: auto;
+    margin-left: 0;
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: 1rem;
+    font-style: normal;
+    color: var(--ink);
+    padding-right: 1.5rem;
   }
 
   /* SECTIONS */
   section {
     padding: 6rem 4rem;
-    border-bottom: 1px solid var(--card-border);
+    border-bottom: var(--border-w) solid var(--ink);
     max-width: 1400px;
     margin: 0 auto;
   }
@@ -167,28 +209,34 @@
   .section-header {
     display: flex;
     align-items: baseline;
-    gap: 2rem;
+    gap: 1.5rem;
     margin-bottom: 4rem;
   }
 
   .section-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--on-accent);
     letter-spacing: 0.1em;
+    border: var(--border-w-thin) solid var(--ink);
+    background: var(--accent);
+    padding: 0.25rem 0.55rem;
   }
 
   .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    font-weight: 700;
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: clamp(1.8rem, 3.6vw, 3rem);
+    font-weight: 400;
     line-height: 1;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
   }
 
   .section-title em {
-    font-style: italic;
+    font-style: normal;
     color: var(--accent);
+    -webkit-text-stroke: 1.5px var(--ink);
   }
 
   /* ABOUT */
@@ -200,43 +248,46 @@
   }
 
   .about-text p {
-    font-size: 1.05rem;
+    font-size: 1rem;
     line-height: 1.8;
-    color: #2a2820;
+    color: var(--ink);
     margin-bottom: 1.2rem;
-    font-weight: 300;
+    font-weight: 400;
   }
 
   .about-text p:first-child {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.3rem;
-    font-style: italic;
+    font-family: var(--font-body);
+    font-size: 1.15rem;
+    font-style: normal;
+    font-weight: 600;
     color: var(--ink);
-    font-weight: 400;
   }
 
   .about-facts {
     display: flex;
     flex-direction: column;
     gap: 0;
-    border: 1px solid var(--card-border);
+    border: var(--border-w) solid var(--ink);
+    background: var(--panel);
+    box-shadow: var(--shadow);
   }
 
   .fact-row {
     display: flex;
-    border-bottom: 1px solid var(--card-border);
+    border-bottom: var(--border-w-thin) solid var(--ink);
     padding: 1.2rem 1.5rem;
     gap: 1.5rem;
     align-items: baseline;
-    transition: background 0.2s;
+    transition: background 0.15s;
   }
 
   .fact-row:last-child { border-bottom: none; }
   .fact-row:hover { background: var(--warm); }
 
   .fact-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--muted);
@@ -245,7 +296,53 @@
 
   .fact-value {
     font-size: 0.9rem;
-    font-weight: 400;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 0.85rem 1.6rem;
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+
+  .btn:hover,
+  .btn:active {
+    transform: translate(var(--shadow-offset), var(--shadow-offset));
+    box-shadow: 0 0 0 0 var(--ink);
+  }
+
+  .btn-primary {
+    background: var(--ink);
+    color: var(--cream);
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 1px solid var(--cream);
+    pointer-events: none;
+  }
+
+  .btn-secondary {
+    background: var(--panel);
     color: var(--ink);
   }
 
@@ -253,69 +350,141 @@
   .cards-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1px;
-    background: var(--card-border);
-    border: 1px solid var(--card-border);
+    gap: 1.5rem;
   }
 
   .card {
-    background: var(--cream);
-    padding: 2.5rem;
+    background: var(--panel);
+    border: var(--border-w) solid var(--ink);
+    box-shadow: var(--shadow);
+    padding: 2.2rem;
     cursor: pointer;
-    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.2s;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
     position: relative;
-    overflow: hidden;
   }
+
+  .card::before,
+  .card::after,
+  .modal-box::before,
+  .modal-box::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--ink), var(--ink)) center / 100% 1px no-repeat,
+      linear-gradient(90deg, var(--ink), var(--ink)) center / 1px 100% no-repeat;
+    opacity: 0.6;
+  }
+  .card::before, .modal-box::before { top: 8px; left: 8px; }
+  .card::after, .modal-box::after { bottom: 8px; right: 8px; }
 
   .card:hover {
-    background: var(--warm);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.08);
-    z-index: 1;
+    transform: translate(var(--shadow-offset), var(--shadow-offset));
+    box-shadow: 0 0 0 0 var(--ink);
   }
 
-  .card:hover .card-arrow { transform: translate(4px, -4px); }
+  .card:hover .card-arrow { transform: translate(2px, -2px); }
 
   .card-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--on-accent);
+    background: var(--accent);
+    border: var(--border-w-thin) solid var(--ink);
+    padding: 0.2rem 0.5rem;
     margin-bottom: 1.2rem;
   }
 
   .card-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    font-weight: 700;
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    font-weight: 400;
     line-height: 1.2;
     margin-bottom: 1rem;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.005em;
   }
 
   .card-desc {
     font-size: 0.88rem;
-    line-height: 1.7;
+    line-height: 1.65;
     color: var(--muted);
-    font-weight: 300;
+    font-weight: 400;
   }
 
   .card-arrow {
     position: absolute;
-    top: 2.5rem;
-    right: 2.5rem;
+    top: 2.2rem;
+    right: 2.2rem;
     font-size: 1.2rem;
-    color: var(--muted);
-    transition: transform 0.2s;
+    color: var(--ink);
+    transition: transform 0.15s;
   }
 
   .card-year {
     margin-top: 1.5rem;
-    font-family: 'DM Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 0.65rem;
+    font-weight: 500;
     color: var(--muted);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
+  }
+
+  /* LINK ROW (icon tile + text + arrow) */
+  .link-row {
+    display: inline-flex;
+    align-items: stretch;
+    gap: 0;
+    border: var(--border-w-thin) solid var(--ink);
+    background: var(--panel);
+    text-decoration: none;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .link-row:hover {
+    transform: translate(3px, 3px);
+    box-shadow: 0 0 0 0 var(--ink);
+  }
+
+  .link-row-icon {
+    background: var(--accent);
+    color: var(--on-accent);
+    border-right: var(--border-w-thin) solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.1rem;
+    flex: 0 0 2.1rem;
+    font-size: 0.9rem;
+  }
+
+  .link-row-text {
+    padding: 0.55rem 0.9rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .link-row-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.1rem;
+    flex: 0 0 2.1rem;
+    border-left: var(--border-w-thin) solid var(--ink);
+    font-size: 1rem;
   }
 
   /* TIMELINE */
@@ -323,42 +492,50 @@
     display: flex;
     flex-direction: column;
     gap: 0;
-    border: 1px solid var(--card-border);
+    border: var(--border-w) solid var(--ink);
+    background: var(--panel);
+    box-shadow: var(--shadow);
   }
 
   .timeline-item {
     display: grid;
-    grid-template-columns: 140px 1fr;
+    grid-template-columns: 150px 1fr;
     gap: 2rem;
     padding: 2rem 2.5rem;
-    border-bottom: 1px solid var(--card-border);
-    transition: background 0.2s;
+    border-bottom: var(--border-w-thin) solid var(--ink);
+    transition: background 0.15s;
   }
 
   .timeline-item:last-child { border-bottom: none; }
   .timeline-item:hover { background: var(--warm); }
 
   .timeline-date {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--muted);
-    letter-spacing: 0.08em;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.04em;
     padding-top: 0.2rem;
   }
 
   .timeline-content h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 0.3rem;
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: 1.05rem;
+    font-weight: 400;
+    margin-bottom: 0.4rem;
   }
 
   .timeline-content .school {
-    font-family: 'DM Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 0.65rem;
-    letter-spacing: 0.1em;
+    font-weight: 700;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--on-accent);
+    background: var(--accent);
+    display: inline-block;
+    padding: 0.1rem 0.4rem;
     margin-bottom: 0.6rem;
   }
 
@@ -366,7 +543,7 @@
     font-size: 0.88rem;
     line-height: 1.6;
     color: var(--muted);
-    font-weight: 300;
+    font-weight: 400;
   }
 
   .timeline-content ul {
@@ -381,33 +558,40 @@
     font-size: 0.88rem;
     line-height: 1.6;
     color: var(--muted);
-    font-weight: 300;
+    font-weight: 400;
   }
 
   .timeline-content li::before {
-    content: '–';
+    content: '—';
     position: absolute;
     left: 0;
     color: var(--accent);
+    font-weight: 700;
   }
 
   .timeline-gpa {
+    display: inline-block;
     margin-top: 0.8rem;
-    font-family: 'DM Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 0.65rem;
-    letter-spacing: 0.08em;
-    color: var(--muted);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    border: var(--border-w-thin) solid var(--ink);
+    padding: 0.2rem 0.5rem;
   }
 
   .timeline-item-minor { padding-top: 1.4rem; padding-bottom: 1.4rem; }
-  .timeline-item-minor h3 { font-size: 0.95rem; }
+  .timeline-item-minor h3 { font-size: 0.92rem; }
   .timeline-item-minor p { font-size: 0.82rem; }
 
   /* SKILLS */
   .skills {
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--card-border);
+    border: var(--border-w) solid var(--ink);
+    background: var(--panel);
+    box-shadow: var(--shadow);
   }
 
   .skill-group {
@@ -415,15 +599,16 @@
     align-items: baseline;
     gap: 2rem;
     padding: 1.5rem 2.5rem;
-    border-bottom: 1px solid var(--card-border);
+    border-bottom: var(--border-w-thin) solid var(--ink);
   }
 
   .skill-group:last-child { border-bottom: none; }
 
   .skill-label {
     flex: 0 0 180px;
-    font-family: 'DM Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 0.65rem;
+    font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--muted);
@@ -436,52 +621,58 @@
   }
 
   .skill-pill {
-    background: var(--warm);
-    border: 1px solid var(--card-border);
-    padding: 0.35rem 0.9rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
+    background: var(--panel);
+    border: var(--border-w-thin) solid var(--ink);
+    padding: 0.3rem 0.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
     color: var(--ink);
   }
 
-  /* STATS */
+  /* STATS (defined for completeness; not rendered by any current section) */
   .stats-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--card-border);
-    border: 1px solid var(--card-border);
+    gap: 0;
+    border: var(--border-w) solid var(--ink);
+    background: var(--ink);
     margin-bottom: 3rem;
   }
 
   .stat-block {
-    background: var(--cream);
+    background: var(--panel);
     padding: 2.5rem;
     text-align: center;
-    transition: background 0.2s;
+    transition: background 0.15s;
+    border-right: var(--border-w-thin) solid var(--ink);
   }
+  .stat-block:last-child { border-right: none; }
 
   .stat-block:hover { background: var(--warm); }
 
   .stat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 3.5rem;
-    font-weight: 900;
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 400;
     line-height: 1;
     color: var(--accent);
-    letter-spacing: -0.03em;
+    -webkit-text-stroke: 1.5px var(--ink);
+    letter-spacing: -0.02em;
   }
 
   .stat-label {
-    font-family: 'DM Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 0.65rem;
-    letter-spacing: 0.12em;
+    font-weight: 700;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--muted);
     margin-top: 0.5rem;
   }
 
-  /* PHOTO STRIP */
+  /* PHOTO STRIP (defined for completeness; currently commented out in HTML) */
   .photo-strip {
     max-width: 1400px;
     margin: 0 auto;
@@ -490,14 +681,15 @@
     grid-template-columns: 3fr 2fr;
     gap: 3.5rem;
     align-items: center;
-    border-bottom: 1px solid var(--card-border);
+    border-bottom: var(--border-w-thin) solid var(--ink);
   }
 
   .photo-strip-img {
     width: 100%;
     aspect-ratio: 16/10;
     background: var(--warm);
-    border: 1px solid var(--card-border);
+    border: var(--border-w) solid var(--ink);
+    box-shadow: var(--shadow);
     overflow: hidden;
     position: relative;
   }
@@ -520,7 +712,7 @@
   }
 
   .photo-strip-img .ph-placeholder span {
-    font-family: 'DM Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 0.6rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
@@ -534,27 +726,32 @@
   }
 
   .photo-strip-caption .caption-label {
-    font-family: 'DM Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 0.6rem;
+    font-weight: 700;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--on-accent);
+    background: var(--accent);
+    display: inline-block;
+    padding: 0.1rem 0.4rem;
+    width: fit-content;
   }
 
   .photo-strip-caption p {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.15rem;
-    font-style: italic;
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    font-style: normal;
+    font-weight: 500;
     line-height: 1.7;
     color: var(--ink);
-    font-weight: 400;
   }
 
   .photo-strip-caption .caption-meta {
-    font-family: 'DM Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 0.65rem;
     color: var(--muted);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
   }
 
   @media (max-width: 768px) {
@@ -567,27 +764,31 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 1px solid var(--card-border);
+    border-top: var(--border-w) solid var(--ink);
+    background: var(--warm);
   }
 
   footer .f-name {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    font-style: italic;
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: 1rem;
+    font-style: normal;
   }
 
   footer .f-mono {
-    font-family: 'DM Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 0.65rem;
+    font-weight: 500;
     color: var(--muted);
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
   }
 
   .photo-placeholder {
     width: 100%;
     aspect-ratio: 3/4;
     background: var(--warm);
-    border: 1px solid var(--card-border);
+    border: var(--border-w) solid var(--ink);
+    box-shadow: var(--shadow);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -596,7 +797,7 @@
   }
 
   .photo-placeholder span {
-    font-family: 'DM Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 0.65rem;
     letter-spacing: 0.1em;
     color: var(--muted);
@@ -609,27 +810,27 @@
   .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(15,14,12,0.72);
+    background: rgba(17,17,17,0.78);
     z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
-    backdrop-filter: blur(5px);
+    transition: opacity 0.2s ease;
   }
   .modal-overlay.open { opacity: 1; pointer-events: all; }
   .modal-box {
-    background: var(--cream);
-    border: 1px solid var(--card-border);
+    background: var(--panel);
+    border: var(--border-w) solid var(--ink);
+    box-shadow: 8px 8px 0 0 var(--ink);
     max-width: 880px;
     width: calc(100% - 3rem);
     max-height: 88vh;
     overflow-y: auto;
     position: relative;
-    transform: translateY(24px);
-    transition: transform 0.35s ease;
+    transform: translateY(16px);
+    transition: transform 0.25s ease;
   }
   .modal-overlay.open .modal-box { transform: translateY(0); }
   .modal-close {
@@ -637,38 +838,47 @@
     top: 1.2rem;
     float: right;
     margin: 1.2rem 1.2rem 0 0;
-    background: none;
-    border: 1px solid var(--card-border);
+    background: var(--panel);
+    border: var(--border-w-thin) solid var(--ink);
+    box-shadow: var(--shadow-sm);
     width: 36px; height: 36px;
     cursor: pointer;
     font-size: 1.1rem;
-    color: var(--muted);
+    color: var(--ink);
     display: flex; align-items: center; justify-content: center;
-    transition: background 0.2s, color 0.2s;
-    font-family: 'DM Mono', monospace;
+    transition: transform 0.12s, box-shadow 0.12s;
+    font-family: var(--font-mono);
     z-index: 2;
   }
-  .modal-close:hover { background: var(--warm); color: var(--ink); }
+  .modal-close:hover {
+    transform: translate(3px, 3px);
+    box-shadow: 0 0 0 0 var(--ink);
+    background: var(--accent);
+    color: var(--on-accent);
+  }
   .modal-inner { padding: 2.5rem 3rem 3rem; clear: both; }
   .modal-inner .modal-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem; letter-spacing: 0.15em;
-    text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--on-accent);
+    background: var(--accent); display: inline-block;
+    padding: 0.2rem 0.5rem; margin-bottom: 1rem;
   }
   .modal-inner .modal-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem; font-weight: 700;
-    line-height: 1.1; margin-bottom: 1.2rem; letter-spacing: -0.02em;
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: 1.7rem; font-weight: 400;
+    line-height: 1.1; margin-bottom: 1.2rem; letter-spacing: -0.005em;
   }
   .modal-inner .modal-desc {
-    font-size: 0.93rem; line-height: 1.85;
-    color: #2a2820; font-weight: 300; margin-bottom: 2.5rem; max-width: 620px;
+    font-size: 0.93rem; line-height: 1.8;
+    color: var(--ink); font-weight: 400; margin-bottom: 2.5rem; max-width: 620px;
   }
   .modal-photos {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
     margin-bottom: 0;
   }
   .modal-photo-slot {
@@ -678,16 +888,15 @@
     overflow: hidden;
     position: relative;
     background: var(--warm);
-    border: 1px solid var(--card-border);
-  }
-  .modal-photo-slot {
+    border: var(--border-w-thin) solid var(--ink);
+    box-shadow: var(--shadow-sm);
     cursor: zoom-in;
   }
   .modal-photo-slot img {
     width: 100%; height: 100%; object-fit: cover; display: block;
-    transition: transform 0.35s ease;
+    transition: transform 0.25s ease;
   }
-  .modal-photo-slot:hover img { transform: scale(1.08); }
+  .modal-photo-slot:hover img { transform: scale(1.05); }
 
   .modal-photo-item {
     display: flex;
@@ -696,26 +905,47 @@
     gap: 0.5rem;
   }
   .modal-photo-caption {
-    font-family: 'DM Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 0.65rem;
-    letter-spacing: 0.06em;
+    font-weight: 500;
+    letter-spacing: 0.04em;
     color: var(--muted);
     text-align: center;
     max-width: 220px;
+  }
+
+  .modal-photo-slot--portrait {
+    aspect-ratio: 3/4;
+    flex: 0 0 170px;
+    width: 170px;
+  }
+  .modal-photo-slot--portrait + .modal-photo-caption,
+  .modal-photo-item:has(.modal-photo-slot--portrait) .modal-photo-caption {
+    max-width: 170px;
+  }
+  .modal-photo-slot--contain {
+    aspect-ratio: auto;
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+    background: var(--panel);
+  }
+  .modal-photo-slot--contain img {
+    object-fit: contain;
   }
 
   /* PHOTO LIGHTBOX */
   .photo-lightbox {
     position: fixed;
     inset: 0;
-    background: rgba(10,9,8,0.92);
+    background: rgba(17,17,17,0.94);
     z-index: 2000;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.25s ease;
+    transition: opacity 0.2s ease;
     cursor: zoom-out;
   }
   .photo-lightbox.open { opacity: 1; pointer-events: all; }
@@ -724,7 +954,8 @@
     max-height: 90vh;
     object-fit: contain;
     display: block;
-    box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+    border: var(--border-w) solid var(--cream);
+    box-shadow: 8px 8px 0 0 rgba(0,0,0,0.5);
   }
   .modal-photo-placeholder {
     width: 100%; height: 100%;
@@ -745,36 +976,36 @@
     width: 64px;
     aspect-ratio: 210 / 297;
     overflow: hidden;
-    border: 1px solid var(--card-border);
+    border: var(--border-w-thin) solid var(--ink);
     background: var(--warm);
     cursor: zoom-in;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    box-shadow: var(--shadow-sm);
   }
   .doc-thumb img {
     width: 100%; height: 100%; object-fit: cover; display: block;
-    transition: transform 0.35s ease;
+    transition: transform 0.25s ease;
   }
-  .doc-thumb:hover img { transform: scale(1.08); }
+  .doc-thumb:hover img { transform: scale(1.05); }
 
   .lightbox-nav {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(255,255,255,0.12);
-    color: #fff;
-    border: none;
+    background: var(--panel);
+    color: var(--ink);
+    border: var(--border-w-thin) solid var(--cream);
     width: 48px;
     height: 48px;
-    border-radius: 50%;
+    border-radius: var(--radius);
     font-size: 1.8rem;
     line-height: 1;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s;
+    transition: background 0.15s;
   }
-  .lightbox-nav:hover { background: rgba(255,255,255,0.25); }
+  .lightbox-nav:hover { background: var(--accent); color: var(--on-accent); }
   .lightbox-prev { left: 3vw; }
   .lightbox-next { right: 3vw; }
   @media (max-width: 640px) {
@@ -788,41 +1019,44 @@
     bottom: 6vh;
     left: 50%;
     transform: translateX(-50%);
-    background: var(--accent);
-    color: #fff;
+    background: var(--ink);
+    color: var(--cream);
+    border: var(--border-w-thin) solid var(--cream);
     padding: 0.7rem 1.4rem;
-    font-family: 'DM Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     text-decoration: none;
     cursor: pointer;
   }
   .modal-photo-placeholder span {
-    font-family: 'DM Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase;
   }
   .modal-section-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--muted); margin: 2rem 0 0.8rem;
-    padding-bottom: 0.6rem; border-bottom: 1px solid var(--card-border);
+    font-family: var(--font-mono);
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink); margin: 2rem 0 0.8rem;
+    padding-bottom: 0.6rem; border-bottom: var(--border-w-thin) solid var(--ink);
   }
   .modal-palmares {
     display: flex; flex-direction: column; gap: 0;
-    border: 1px solid var(--card-border); margin-bottom: 1.5rem;
+    border: var(--border-w-thin) solid var(--ink); margin-bottom: 1.5rem;
   }
   .modal-palmares-item {
-    padding: 0.9rem 1.2rem; border-bottom: 1px solid var(--card-border);
-    font-size: 0.88rem; line-height: 1.5; font-weight: 300;
+    padding: 0.9rem 1.2rem; border-bottom: var(--border-w-thin) solid var(--ink);
+    font-size: 0.88rem; line-height: 1.5; font-weight: 400;
     display: flex; align-items: baseline; gap: 1rem;
   }
   .modal-palmares-item:last-child { border-bottom: none; }
   .modal-palmares-win { background: var(--warm); }
   .modal-palmares-year {
-    font-family: 'DM Mono', monospace; font-size: 0.65rem;
-    color: var(--accent); letter-spacing: 0.08em; min-width: 36px;
+    font-family: var(--font-mono); font-size: 0.65rem; font-weight: 700;
+    color: var(--on-accent); background: var(--accent);
+    letter-spacing: 0.04em; min-width: 36px; text-align: center;
+    padding: 0.1rem 0;
   }
 
   @keyframes fadeUp {
@@ -833,7 +1067,7 @@
   .reveal {
     opacity: 0;
     transform: translateY(24px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+    transition: opacity 0.6s ease, transform 0.6s ease;
   }
 
   .reveal.visible {
@@ -856,10 +1090,11 @@
     .hero-number { display: none; }
   }
 </style>
+
 </head>
 <body>
 
-<section class="hero" style="max-width:100%; border-bottom: 1px solid var(--card-border); padding: 6rem 4rem 4rem;">
+<section class="hero" style="max-width:100%;">
   <div class="hero-eyebrow">Portfolio — Master's Application</div>
   <div class="hero-number">2025 — 2026</div>
   <h1 class="hero-name">
@@ -894,49 +1129,30 @@
     <div></div>
 
     <div class="about-text reveal" style="padding-top: 20px;">
-      <p style="margin-bottom: 25px; line-height: 1.7; font-size: 0.95rem; color: var(--text-dim);">
+      <p style="margin-bottom: 25px; line-height: 1.7; font-size: 0.95rem; color: var(--muted);">
         Born and raised in Bordeaux, now based in Paris and studying at Arts et Métiers in Lille (ENSAM). Welcome to my portfolio — the best way to get to know me.
       </p>
 
-      <p style="margin-bottom: 35px; line-height: 1.7; font-size: 0.95rem; color: var(--text-dim);">
+      <p style="margin-bottom: 35px; line-height: 1.7; font-size: 0.95rem; color: var(--muted);">
         I grew up surrounded by engineers, oval balls, and sheet music. A twin by birth, a photographer by passion, a rugby player by nature. Engineering is just the way I found to tie it all together.
       </p>
 
-      <a href="Benoit_GADRET.pdf" target="_blank" class="cta-button" style="
-        display: inline-block;
-        padding: 12px 28px;
-        background: var(--accent);
-        color: white;
-        text-decoration: none;
-        border-radius: 2px;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        font-size: 0.85rem;
-        transition: all 0.3s ease;
-        border: 1px solid var(--accent);
-        margin-bottom: 50px;
-      ">
+      <a href="Benoit_GADRET.pdf" target="_blank" class="btn btn-primary" style="margin-bottom: 50px;">
         VIEW FULL RESUME (PDF) →
       </a>
 
-      <div class="contact-card reveal" style="
-        background: var(--warm);
-        padding: 30px;
-        border: 1px solid var(--card-border);
-        border-radius: 2px;
-        margin-top: 20px;
-      ">
-        <h4 style="font-size: 1rem; margin-bottom: 20px; font-weight: 600;">Contact Details</h4>
-        <div class="fact-row" style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--card-border);">
-          <span style="font-weight: 600; font-size: 0.8rem; text-transform: uppercase; color: var(--text-dim);">Phone</span>
+      <div class="contact-card about-facts reveal" style="margin-top: 20px;">
+        <h4 style="font-size: 1rem; margin-bottom: 20px; font-weight: 600; padding: 20px 20px 0;">Contact Details</h4>
+        <div class="fact-row" style="display: flex; justify-content: space-between; padding: 10px 1.25rem;">
+          <span style="font-weight: 700; font-size: 0.8rem; text-transform: uppercase; color: var(--muted); font-family: var(--font-mono);">Phone</span>
           <span style="font-size: 0.9rem;">+33 7 85 42 52 27</span>
         </div>
-        <div class="fact-row" style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--card-border);">
-          <span style="font-weight: 600; font-size: 0.8rem; text-transform: uppercase; color: var(--text-dim);">Email</span>
+        <div class="fact-row" style="display: flex; justify-content: space-between; padding: 10px 1.25rem;">
+          <span style="font-weight: 700; font-size: 0.8rem; text-transform: uppercase; color: var(--muted); font-family: var(--font-mono);">Email</span>
           <a href="mailto:benoitgadret@gmail.com" style="font-size: 0.9rem; color: var(--accent); text-decoration: none;">benoitgadret@gmail.com</a>
         </div>
-        <div class="fact-row" style="display: flex; justify-content: space-between; padding: 10px 0;">
-          <span style="font-weight: 600; font-size: 0.8rem; text-transform: uppercase; color: var(--text-dim);">LinkedIn</span>
+        <div class="fact-row" style="display: flex; justify-content: space-between; padding: 10px 1.25rem;">
+          <span style="font-weight: 700; font-size: 0.8rem; text-transform: uppercase; color: var(--muted); font-family: var(--font-mono);">LinkedIn</span>
           <a href="https://www.linkedin.com/in/benoit-gadret-683983384/" target="_blank" style="font-size: 0.9rem; color: var(--accent); text-decoration: none;">Profile →</a>
         </div>
       </div>
@@ -949,7 +1165,8 @@
         width: 75%; /* RÉDUIT À 75% */
         aspect-ratio: 3/4;
         object-fit: cover;
-        border: 1px solid var(--card-border);
+        border: var(--border-w) solid var(--ink);
+        box-shadow: var(--shadow);
         display: inline-block; /* Pour l'aligner à droite */
         margin-top: 20px;
       ">
@@ -1017,28 +1234,15 @@
           <li>Built a web-based sizing tool linked to a manufacturer's parts database to speed up pre-sales quoting</li>
           <li>Produced technical-commercial cost estimates (up to €18,400) balancing engineering constraints with cost viability</li>
         </ul>
-        <a href="Rapport_de_Stage_Benoit_GADRET.pdf" target="_blank" style="
-            display: inline-flex;
-            align-items: center;
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            gap: 5px;
-          ">
-          View Internship Report (PDF) <span style="font-size: 1.1rem;">↗</span>
+        <a href="Rapport_de_Stage_Benoit_GADRET.pdf" target="_blank" class="link-row">
+          <span class="link-row-icon">↗</span>
+          <span class="link-row-text">View Internship Report (PDF)</span>
+          <span class="link-row-arrow">↗</span>
         </a>
-        <div onclick="openModal('modal-duffau'); event.stopPropagation();" style="
-            display: inline-flex;
-            align-items: center;
-            color: var(--accent);
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            gap: 5px;
-            margin-top: 8px;
-          ">
-          View Internship Photos <span style="font-size: 1.1rem;">↗</span>
+        <div onclick="openModal('modal-duffau'); event.stopPropagation();" class="link-row" style="cursor: pointer; margin-top: 8px;">
+          <span class="link-row-icon">↗</span>
+          <span class="link-row-text">View Internship Photos</span>
+          <span class="link-row-arrow">↗</span>
         </div>
       </div>
     </div>
@@ -1080,16 +1284,10 @@
         <div class="school">Château Corbin</div>
         <h3>Vineyard &amp; Winery Worker</h3>
         <p>Seasonal work at a Bordeaux Grand Cru Classé estate, assisting winemakers with fermentation and cellar operations, and taking part in vineyard fieldwork (shoot thinning, leaf removal).</p>
-        <div style="
-            display: inline-flex;
-            align-items: center;
-            color: var(--accent);
-            font-size: 0.85rem;
-            font-weight: 600;
-            gap: 5px;
-            margin-top: 8px;
-          ">
-          View photos <span style="font-size: 1.1rem;">↗</span>
+        <div class="link-row" style="margin-top: 8px;">
+          <span class="link-row-icon">↗</span>
+          <span class="link-row-text">View photos</span>
+          <span class="link-row-arrow">↗</span>
         </div>
       </div>
     </div>
@@ -1127,17 +1325,37 @@
           <div class="doc-thumb" onclick="openLightbox('pdf-thumbs/capteur-solaire.jpg', event, 'Groupe4_capteur_solaire.pdf')">
             <img src="pdf-thumbs/capteur-solaire.jpg" alt="Aperçu du rapport - Capteur solaire">
           </div>
-          <a href="Groupe4_capteur_solaire.pdf" target="_blank" style="
-            display: inline-flex;
-            align-items: center;
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            gap: 5px;
-          ">
-            View Project Report (PDF) <span style="font-size: 1.1rem;">↗</span>
+          <a href="Groupe4_capteur_solaire.pdf" target="_blank" class="link-row">
+            <span class="link-row-icon">↗</span>
+            <span class="link-row-text">View Project Report (PDF)</span>
+            <span class="link-row-arrow">↗</span>
           </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item" style="background:transparent;">
+      <div class="timeline-date">Dec 2025 — Jan 2026</div>
+      <div class="timeline-content">
+        <div class="school">Manufacturing Processes · Foundry</div>
+        <h3>Sand Casting of an AlSi7 Part</h3>
+        <p style="margin-bottom: 15px;">
+          Complete sand-casting cycle of an AlSi7 aluminium part, from design calculations to inspection of the casting. Sized the riser using the thermal modulus method and the gating system from the flow-rate equation, then built the two-part sand mould with resin-bonded cores and poured the part at about 765 °C. Inspection showed no shrinkage cavity, which validates the riser design; the 4.3 s pouring time (3 s targeted) and the 1.9 % linear shrinkage (1.25 % expected) were analysed and explained. Improvement paths: numerical simulation and exothermic risers.
+        </p>
+        <div class="doc-preview-row">
+          <div class="doc-thumb" onclick="openLightbox('pdf-thumbs/fonderie.jpg', event, 'TP_Fonderie.pdf')">
+            <img src="pdf-thumbs/fonderie.jpg" alt="Aperçu du rapport - Fonderie">
+          </div>
+          <a href="TP_Fonderie.pdf" target="_blank" class="link-row">
+            <span class="link-row-icon">↗</span>
+            <span class="link-row-text">View Project Report (PDF)</span>
+            <span class="link-row-arrow">↗</span>
+          </a>
+        </div>
+        <div onclick="openModal('modal-fonderie'); event.stopPropagation();" class="link-row" style="cursor: pointer; margin-top: 8px;">
+          <span class="link-row-icon">↗</span>
+          <span class="link-row-text">View Project Photos</span>
+          <span class="link-row-arrow">↗</span>
         </div>
       </div>
     </div>
@@ -1154,16 +1372,10 @@
           <div class="doc-thumb" onclick="openLightbox('pdf-thumbs/pjt-cnn.jpg', event, 'Rapport_PJT_225 copie.pdf')">
             <img src="pdf-thumbs/pjt-cnn.jpg" alt="Aperçu du rapport - CNN">
           </div>
-          <a href="Rapport_PJT_225 copie.pdf" target="_blank" style="
-            display: inline-flex;
-            align-items: center;
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            gap: 5px;
-          ">
-            View Project Report (PDF) <span style="font-size: 1.1rem;">↗</span>
+          <a href="Rapport_PJT_225 copie.pdf" target="_blank" class="link-row">
+            <span class="link-row-icon">↗</span>
+            <span class="link-row-text">View Project Report (PDF)</span>
+            <span class="link-row-arrow">↗</span>
           </a>
         </div>
       </div>
@@ -1181,16 +1393,10 @@
           <div class="doc-thumb" onclick="openLightbox('pdf-thumbs/tipe-hydrogene.jpg', event, 'TIPE_Gadret.pdf')">
             <img src="pdf-thumbs/tipe-hydrogene.jpg" alt="Aperçu de la présentation - TIPE">
           </div>
-          <a href="TIPE_Gadret.pdf" target="_blank" style="
-            display: inline-flex;
-            align-items: center;
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            gap: 5px;
-          ">
-            View Project Presentation (PDF) <span style="font-size: 1.1rem;">↗</span>
+          <a href="TIPE_Gadret.pdf" target="_blank" class="link-row">
+            <span class="link-row-icon">↗</span>
+            <span class="link-row-text">View Project Presentation (PDF)</span>
+            <span class="link-row-arrow">↗</span>
           </a>
         </div>
       </div>
@@ -1215,16 +1421,10 @@
         CPGE La Salle Passy Buzenval — 2 years<br>
         XV Birois — 1 year
       </div>
-      <div style="
-          display: inline-flex;
-          align-items: center;
-          color: var(--accent);
-          font-size: 0.85rem;
-          font-weight: 600;
-          gap: 5px;
-          margin-top: 8px;
-        ">
-        View photos <span style="font-size: 1.1rem;">↗</span>
+      <div class="link-row" style="margin-top: 8px;">
+        <span class="link-row-icon">↗</span>
+        <span class="link-row-text">View photos</span>
+        <span class="link-row-arrow">↗</span>
       </div>
     </div>
 
@@ -1234,16 +1434,10 @@
       <h3 class="card-title">In the Mountains</h3>
       <p class="card-desc">A lifelong passion inherited from my family. From rock climbing on crags to high-altitude mountaineering, ski touring in the backcountry, the mountains have shaped my ability to manage risk, stay composed under pressure, and push through physical and mental limits.</p>
       <div class="card-year">Family activity — practiced since childhood</div>
-      <div style="
-          display: inline-flex;
-          align-items: center;
-          color: var(--accent);
-          font-size: 0.85rem;
-          font-weight: 600;
-          gap: 5px;
-          margin-top: 8px;
-        ">
-        View photos <span style="font-size: 1.1rem;">↗</span>
+      <div class="link-row" style="margin-top: 8px;">
+        <span class="link-row-icon">↗</span>
+        <span class="link-row-text">View photos</span>
+        <span class="link-row-arrow">↗</span>
       </div>
     </div>
 
@@ -1253,16 +1447,10 @@
       <h3 class="card-title">On the Water</h3>
       <p class="card-desc">Active member of the Arts et Métiers sailing association, racing in the Course Croisière EDHEC — one of Europe's largest student sporting events, bringing together thousands of participants every year.</p>
       <div class="card-year">2025 —</div>
-      <div style="
-          display: inline-flex;
-          align-items: center;
-          color: var(--accent);
-          font-size: 0.85rem;
-          font-weight: 600;
-          gap: 5px;
-          margin-top: 8px;
-        ">
-        View photos <span style="font-size: 1.1rem;">↗</span>
+      <div class="link-row" style="margin-top: 8px;">
+        <span class="link-row-icon">↗</span>
+        <span class="link-row-text">View photos</span>
+        <span class="link-row-arrow">↗</span>
       </div>
     </div>
 
@@ -1280,16 +1468,10 @@
       <h3 class="card-title">Educational Mission — Nepal</h3>
       <p class="card-desc">Spent a month in Kathmandu with The Green Lion association, assisting teachers and organizing activities for local schoolchildren.</p>
       <div class="card-year">July 2022 · Kathmandu, Nepal</div>
-      <div style="
-          display: inline-flex;
-          align-items: center;
-          color: var(--accent);
-          font-size: 0.85rem;
-          font-weight: 600;
-          gap: 5px;
-          margin-top: 8px;
-        ">
-        View photos <span style="font-size: 1.1rem;">↗</span>
+      <div class="link-row" style="margin-top: 8px;">
+        <span class="link-row-icon">↗</span>
+        <span class="link-row-text">View photos</span>
+        <span class="link-row-arrow">↗</span>
       </div>
     </div>
 
@@ -1306,8 +1488,10 @@
       <div class="card-arrow">↗</div>
       <h3 class="card-title">Photography & Editing</h3>
       <p class="card-desc">Exploring the world through a lens with a focus on composition and light. I manage the full creative process, including advanced post-processing and color grading on Adobe Lightroom to refine every detail.</p>
-      <a href="https://gadret.myportfolio.com/" target="_blank" style="text-decoration: none;">
-        <div class="card-year" style="color: var(--accent); font-weight: bold;">View Adobe Portfolio →</div>
+      <a href="https://gadret.myportfolio.com/" target="_blank" class="link-row" style="margin-top: 1.5rem;">
+        <span class="link-row-icon">↗</span>
+        <span class="link-row-text">View Adobe Portfolio</span>
+        <span class="link-row-arrow">→</span>
       </a>
     </div>
   </div>
@@ -1633,6 +1817,77 @@
     <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="stage/stage-metro-01.jpg" alt="Machined part suspended during a helium leak-tightness test"></div>
     <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="stage/stage-metro-02.jpg" alt="Setup under a plastic sheet for helium leak detection"></div>
     <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="stage/stage-metro-03.jpg" alt="Phoenix XL 300 helium leak analyzer"></div>
+  </div>
+</div>
+
+<!-- MODAL DATA: Fonderie -->
+<div id="modal-fonderie" style="display:none">
+  <div class="modal-tag">Manufacturing Processes</div>
+  <h2 class="modal-title">Sand Casting of an AlSi7 Part</h2>
+
+  <div class="modal-section-label">Gating System Design</div>
+  <p class="modal-desc">
+    Sized the riser using the thermal modulus method and the gating system from the flow-rate equation.
+  </p>
+  <div class="modal-photos">
+    <div class="modal-photo-slot modal-photo-slot--contain" onclick="openLightbox(this,event)"><img src="fonderie/fonderie-schema-01.jpg" alt="Simplified diagram of the mould and the dimensions studied"></div>
+  </div>
+
+  <div class="modal-section-label">Mould Making</div>
+  <p class="modal-desc">
+    Built the two-part sand mould with resin-bonded cores, from pattern placement to venting.
+  </p>
+  <div class="modal-photos">
+    <div class="modal-photo-item">
+      <div class="modal-photo-slot modal-photo-slot--portrait" onclick="openLightbox(this,event)"><img src="fonderie/fonderie-moule-01.jpg" alt="Upper half: pattern, runner and riser patterns in place"></div>
+      <span class="modal-photo-caption">Upper half: pattern, runner and riser patterns in place</span>
+    </div>
+    <div class="modal-photo-item">
+      <div class="modal-photo-slot modal-photo-slot--portrait" onclick="openLightbox(this,event)"><img src="fonderie/fonderie-moule-02.jpg" alt="Cutting the ingates"></div>
+      <span class="modal-photo-caption">Cutting the ingates</span>
+    </div>
+    <div class="modal-photo-item">
+      <div class="modal-photo-slot modal-photo-slot--portrait" onclick="openLightbox(this,event)"><img src="fonderie/fonderie-moule-03.jpg" alt="Drilling the vent"></div>
+      <span class="modal-photo-caption">Drilling the vent</span>
+    </div>
+    <div class="modal-photo-item">
+      <div class="modal-photo-slot modal-photo-slot--portrait" onclick="openLightbox(this,event)"><img src="fonderie/fonderie-moule-04.jpg" alt="Resin-bonded cores placed in both halves"></div>
+      <span class="modal-photo-caption">Resin-bonded cores placed in both halves</span>
+    </div>
+  </div>
+
+  <div class="modal-section-label">Pouring</div>
+  <p class="modal-desc">
+    Poured the AlSi7 alloy at about 765 °C.
+  </p>
+  <div class="modal-photos">
+    <div class="modal-photo-item">
+      <div class="modal-photo-slot modal-photo-slot--portrait" onclick="openLightbox(this,event)"><img src="fonderie/fonderie-coulee-01.jpg" alt="Pouring the AlSi7 alloy at about 765 °C"></div>
+      <span class="modal-photo-caption">Pouring the AlSi7 alloy at about 765 °C</span>
+    </div>
+  </div>
+
+  <div class="modal-section-label">Inspection</div>
+  <p class="modal-desc">
+    Inspection showed no shrinkage cavity, validating the riser design; pouring time and linear shrinkage were measured and analysed against targets.
+  </p>
+  <div class="modal-photos">
+    <div class="modal-photo-item">
+      <div class="modal-photo-slot modal-photo-slot--portrait" onclick="openLightbox(this,event)"><img src="fonderie/fonderie-piece-01.jpg" alt="Casting cluster after pouring"></div>
+      <span class="modal-photo-caption">Casting cluster after pouring</span>
+    </div>
+    <div class="modal-photo-item">
+      <div class="modal-photo-slot modal-photo-slot--portrait" onclick="openLightbox(this,event)"><img src="fonderie/fonderie-piece-02.jpg" alt="Side view: riser and gating system, no shrinkage cavity"></div>
+      <span class="modal-photo-caption">Side view: riser and gating system, no shrinkage cavity</span>
+    </div>
+    <div class="modal-photo-item">
+      <div class="modal-photo-slot modal-photo-slot--portrait" onclick="openLightbox(this,event)"><img src="fonderie/fonderie-piece-03.jpg" alt="Surface defects analysed"></div>
+      <span class="modal-photo-caption">Surface defects analysed</span>
+    </div>
+    <div class="modal-photo-item">
+      <div class="modal-photo-slot modal-photo-slot--portrait" onclick="openLightbox(this,event)"><img src="fonderie/fonderie-controle-01.jpg" alt="Measuring the part to compute linear shrinkage"></div>
+      <span class="modal-photo-caption">Measuring the part to compute linear shrinkage</span>
+    </div>
   </div>
 </div>
 
