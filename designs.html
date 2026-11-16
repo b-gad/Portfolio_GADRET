@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benoît Gadret — Design versions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #10201a;
+    --muted: #51605a;
+    --paper: #f6f5f0;
+    --paper-alt: #eceee8;
+    --accent: #1b4d3e;
+    --on-accent: #f3f1ea;
+    --border-w: 2px;
+    --border-w-thin: 1px;
+    --font-display: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-display);
+    min-height: 100vh;
+    padding: 4rem 1.5rem;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    margin-bottom: 0.6rem;
+  }
+  .sub {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+  }
+  .list { display: flex; flex-direction: column; gap: 1rem; }
+  .item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border: var(--border-w-thin) solid var(--ink);
+    background: var(--paper-alt);
+    padding: 1.2rem 1.4rem;
+    text-decoration: none;
+    color: var(--ink);
+    transition: background 0.15s, transform 0.15s;
+  }
+  .item:hover { background: var(--accent); color: var(--on-accent); transform: translateX(4px); }
+  .item:hover .item-file { color: var(--on-accent); opacity: 0.8; }
+  .item-text { display: flex; flex-direction: column; gap: 0.25rem; }
+  .item-title { font-weight: 600; font-size: 1rem; }
+  .item-file { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); }
+  .item-arrow { font-family: var(--font-mono); font-size: 1rem; }
+  .item-current {
+    border-width: var(--border-w);
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .item-current .item-file { color: rgba(243,241,234,0.6); }
+  footer {
+    margin-top: 3rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Design versions</h1>
+  <p class="sub">Same real content and assets, different visual explorations of the same portfolio.</p>
+
+  <div class="list">
+    <a class="item" href="index.html">
+      <div class="item-text">
+        <span class="item-title">Current — Blueprint neo-brutalist</span>
+        <span class="item-file">index.html</span>
+      </div>
+      <span class="item-arrow">↗</span>
+    </a>
+
+    <a class="item" href="index_folder.html">
+      <div class="item-text">
+        <span class="item-title">Folder tabs</span>
+        <span class="item-file">index_folder.html</span>
+      </div>
+      <span class="item-arrow">↗</span>
+    </a>
+
+    <a class="item" href="index_sammy.html">
+      <div class="item-text">
+        <span class="item-title">Sammy Labs–inspired</span>
+        <span class="item-file">index_sammy.html</span>
+      </div>
+      <span class="item-arrow">↗</span>
+    </a>
+
+    <a class="item" href="index_backup.html">
+      <div class="item-text">
+        <span class="item-title">Backup</span>
+        <span class="item-file">index_backup.html</span>
+      </div>
+      <span class="item-arrow">↗</span>
+    </a>
+
+    <a class="item item-current" href="index_v1.html">
+      <div class="item-text">
+        <span class="item-title">V1 — Original design</span>
+        <span class="item-file">index_v1.html · tag v1-design-initial</span>
+      </div>
+      <span class="item-arrow">↗</span>
+    </a>
+  </div>
+
+  <footer>Benoît Gadret · Portfolio</footer>
+</div>
+</body>
+</html>

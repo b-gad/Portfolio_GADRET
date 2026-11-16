@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benoît Gadret — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #10201a;
+    --muted: #51605a;
+    --paper: #f6f5f0;
+    --paper-alt: #eceee8;
+    --cream: #f3f1ea;
+    --on-accent: #f3f1ea;
+    --accent: #1b4d3e;
+    --accent-light: #2c7566;
+    --border-w: 3px;
+    --border-w-thin: 1px;
+    --radius: 2px;
+    --shadow: 5px 5px 0 0 var(--ink);
+    --shadow-sm: 3px 3px 0 0 var(--ink);
+
+    --f1: #14362c;
+    --f2: #1b4d3e;
+    --f3: #205a4c;
+    --f4: #246657;
+    --f5: #1a4337;
+    --f6: #2c7566;
+
+    --font-display: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', 'JetBrains Mono', monospace;
+    --font-body: 'DM Sans', sans-serif;
+
+    --rail-w: 280px;
+    --motion-fast: 0.2s;
+    --motion-mid: 0.35s;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body { height: 100%; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-weight: 400;
+    min-height: 100vh;
+    cursor: default;
+  }
+
+  a { color: inherit; }
+  button { font: inherit; color: inherit; background: none; border: none; }
+
+  a:focus-visible,
+  button:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 3px solid var(--accent-light);
+    outline-offset: 2px;
+  }
+
+  /* ============ LAYOUT ============ */
+  .app {
+    display: flex;
+    min-height: 100vh;
+    align-items: stretch;
+  }
+
+  /* ============ RAIL (always visible) ============ */
+  .rail {
+    flex: 0 0 var(--rail-w);
+    width: var(--rail-w);
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    height: 100vh;
+    background: var(--ink);
+    color: var(--paper);
+    border-right: var(--border-w) solid var(--ink);
+    padding: 2.4rem 1.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    transition: padding var(--motion-mid) ease;
+    overflow-y: auto;
+  }
+
+  body.folder-open .rail { padding: 1.3rem 1.6rem; }
+
+  .rail-photo {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    border: var(--border-w-thin) solid var(--paper);
+    display: block;
+    transition: max-height var(--motion-mid) ease, opacity var(--motion-mid) ease, margin var(--motion-mid) ease;
+  }
+
+  body.folder-open .rail-photo { max-height: 90px; object-position: top; margin-bottom: -4px; }
+
+  .rail-id { display: flex; flex-direction: column; gap: 0.3rem; }
+
+  .rail-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: -0.01em;
+  }
+
+  .rail-role {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--paper-alt);
+    line-height: 1.5;
+    opacity: 0.85;
+  }
+
+  body.folder-open .rail-role { display: none; }
+
+  .rail-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+  }
+
+  .rail-links a {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    padding: 0.55rem 0.7rem;
+    border: var(--border-w-thin) solid rgba(243,241,234,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background var(--motion-fast), border-color var(--motion-fast);
+  }
+
+  .rail-links a:hover {
+    background: var(--accent-light);
+    border-color: var(--accent-light);
+  }
+
+  .rail-foot {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .rail-tagline {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(243,241,234,0.55);
+  }
+
+  .other-versions-link {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: rgba(243,241,234,0.6);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    width: fit-content;
+  }
+
+  .other-versions-link:hover { color: var(--paper); }
+
+  /* ============ MAIN / STACK ============ */
+  .main {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 2.6rem 3rem;
+  }
+
+  .stack {
+    position: relative;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+
+  body.folder-open .stack {
+    min-height: calc(100vh - 5.2rem);
+  }
+
+  .stack-intro {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.6rem;
+  }
+
+  body.folder-open .stack-intro { display: none; }
+
+  /* ---- Folder (closed state = tab in the stack) ---- */
+  .folder {
+    position: relative;
+    margin-bottom: 14px;
+  }
+
+  .folder:last-child { margin-bottom: 0; }
+
+  .folder:nth-child(odd)  { transform: translateX(16px) rotate(-0.35deg); }
+  .folder:nth-child(even) { transform: translateX(-10px) rotate(0.3deg); }
+
+  .stack.has-open .folder:not(.open) {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+  }
+
+  .tab-btn {
+    width: 100%;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    cursor: pointer;
+    padding: 1.1rem 1.5rem;
+    border: var(--border-w-thin) solid var(--ink);
+    box-shadow: var(--shadow-sm);
+    color: var(--on-accent);
+    position: relative;
+    z-index: 2;
+    transition: transform var(--motion-fast) ease, box-shadow var(--motion-fast) ease;
+  }
+
+  .folder.open .tab-btn { display: none; }
+
+  @media (hover: hover) {
+    .tab-btn:hover { transform: translateY(-5px); box-shadow: 8px 8px 0 0 var(--ink); }
+  }
+
+  .tab-index {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    opacity: 0.75;
+    flex: 0 0 auto;
+  }
+
+  .tab-label {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+    flex: 1 1 auto;
+  }
+
+  .tab-arrow {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+
+  /* ---- Folder panel (open state) ---- */
+  .folder-panel {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: scale(0.92);
+    transform-origin: top left;
+    transition: transform var(--motion-mid) ease, opacity var(--motion-fast) ease;
+    background: var(--paper);
+    border: var(--border-w) solid var(--ink);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .folder.open {
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+  }
+
+  .folder.open .folder-panel {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+    transform: scale(1);
+  }
+
+  .folder-panel-head {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.6rem;
+    border-bottom: var(--border-w) solid var(--ink);
+    color: var(--on-accent);
+  }
+
+  .folder-panel-head .head-label {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  .folder-close {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    border: var(--border-w-thin) solid rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: background var(--motion-fast);
+  }
+
+  .folder-close:hover { background: rgba(255,255,255,0.18); }
+
+  .folder-scroll {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 2.4rem 2.8rem 3rem;
+  }
+
+  .folder[data-section="about"]      .folder-panel-head,
+  .folder[data-section="about"]      .tab-btn { background: var(--f1); border-color: var(--ink); }
+  .folder[data-section="projects"]     .folder-panel-head,
+  .folder[data-section="projects"]     .tab-btn { background: var(--f2); border-color: var(--ink); }
+  .folder[data-section="education"]    .folder-panel-head,
+  .folder[data-section="education"]    .tab-btn { background: var(--f3); border-color: var(--ink); }
+  .folder[data-section="experience"]   .folder-panel-head,
+  .folder[data-section="experience"]   .tab-btn { background: var(--f4); border-color: var(--ink); }
+  .folder[data-section="extracurricular"] .folder-panel-head,
+  .folder[data-section="extracurricular"] .tab-btn { background: var(--f5); border-color: var(--ink); }
+  .folder[data-section="skills"]       .folder-panel-head,
+  .folder[data-section="skills"]       .tab-btn { background: var(--f6); border-color: var(--ink); }
+
+  /* ============ reduced motion ============ */
+  @media (prefers-reduced-motion: reduce) {
+    .folder-panel, .tab-btn, .rail, .rail-photo { transition: none !important; }
+  }
+
+  /* ============ Section header (reused inside folders) ============ */
+  .section-header { display: flex; align-items: baseline; gap: 1.2rem; margin-bottom: 2.6rem; }
+  .section-num {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--on-accent);
+    letter-spacing: 0.1em;
+    border: var(--border-w-thin) solid var(--ink);
+    background: var(--accent);
+    padding: 0.2rem 0.5rem;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.4rem, 2.6vw, 2rem);
+    letter-spacing: -0.01em;
+  }
+  .section-title em { font-style: normal; color: var(--accent); }
+
+  /* ============ About ============ */
+  .about-text p { line-height: 1.7; font-size: 0.95rem; color: var(--muted); margin-bottom: 1.3rem; }
+
+  .btn {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    padding: 0.8rem 1.3rem;
+    border: var(--border-w-thin) solid var(--ink);
+  }
+  .btn-primary { background: var(--accent); color: var(--on-accent); }
+  .btn-primary:hover { background: var(--accent-light); }
+
+  .contact-card {
+    border: var(--border-w-thin) solid var(--ink);
+    background: var(--paper-alt);
+    margin-top: 1.6rem;
+  }
+  .contact-card h4 { font-size: 0.85rem; padding: 1.1rem 1.1rem 0; font-weight: 600; }
+  .fact-row {
+    display: flex; justify-content: space-between;
+    padding: 0.7rem 1.1rem;
+    border-bottom: var(--border-w-thin) solid rgba(16,32,26,0.12);
+    font-size: 0.85rem;
+  }
+  .fact-row:last-child { border-bottom: none; }
+  .fact-row span:first-child { font-family: var(--font-mono); font-size: 0.68rem; text-transform: uppercase; color: var(--muted); }
+  .fact-row a { color: var(--accent); text-decoration: none; }
+
+  .about-photo {
+    width: 60%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    border: var(--border-w) solid var(--ink);
+    box-shadow: var(--shadow);
+    display: block;
+    margin: 0 auto 2rem;
+  }
+
+  /* ============ Timeline (education / experience / projects) ============ */
+  .timeline { display: flex; flex-direction: column; }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 1.6rem;
+    padding: 1.7rem 0;
+    border-bottom: var(--border-w-thin) solid rgba(16,32,26,0.15);
+  }
+  .timeline-item:last-child { border-bottom: none; }
+  .timeline-date { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); padding-top: 0.2rem; }
+  .timeline-content h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.02rem; margin: 0.25rem 0 0.6rem; }
+  .timeline-content .school {
+    font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--on-accent); background: var(--accent); display: inline-block; padding: 0.2rem 0.5rem;
+  }
+  .timeline-content p { font-size: 0.88rem; line-height: 1.65; color: var(--muted); }
+  .timeline-content ul { margin: 0.6rem 0 0; padding-left: 1.1rem; }
+  .timeline-content li { font-size: 0.85rem; line-height: 1.6; color: var(--muted); margin-bottom: 0.35rem; }
+  .timeline-gpa { font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); margin-top: 0.6rem; }
+  .timeline-item-minor { padding-top: 1.2rem; padding-bottom: 1.2rem; }
+  .timeline-item-minor h3 { font-size: 0.92rem; }
+  .timeline-item-minor p { font-size: 0.82rem; }
+
+  @media (max-width: 640px) {
+    .timeline-item { grid-template-columns: 1fr; gap: 0.5rem; }
+  }
+
+  /* doc preview row (PDF thumbnail + links) */
+  .doc-preview-row { display: flex; align-items: center; gap: 0.9rem; margin-top: 0.6rem; flex-wrap: wrap; }
+  .doc-thumb {
+    flex: 0 0 56px; width: 56px; aspect-ratio: 210/297;
+    overflow: hidden; border: var(--border-w-thin) solid var(--ink);
+    background: var(--paper-alt); cursor: zoom-in;
+  }
+  .doc-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.2s; }
+  .doc-thumb:hover img { transform: scale(1.06); }
+
+  .link-row {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.03em;
+    text-decoration: none; color: var(--ink);
+    border: var(--border-w-thin) solid var(--ink);
+    padding: 0.55rem 0.8rem;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .link-row:hover { background: var(--accent); color: var(--on-accent); }
+  .link-row-icon, .link-row-arrow { font-size: 0.72rem; }
+
+  /* ============ Cards grid (extracurricular) ============ */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.2rem; }
+  .card {
+    position: relative;
+    border: var(--border-w-thin) solid var(--ink);
+    background: var(--paper-alt);
+    padding: 1.2rem 1.2rem 1.4rem;
+    cursor: default;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .card[onclick] { cursor: pointer; }
+  .card[onclick]:hover { transform: translateY(-3px); box-shadow: var(--shadow-sm); }
+  .card-tag {
+    display: inline-block; font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--on-accent); background: var(--accent); padding: 0.2rem 0.5rem; margin-bottom: 0.7rem;
+  }
+  .card-arrow { position: absolute; top: 1.1rem; right: 1.1rem; font-size: 0.85rem; color: var(--muted); transition: transform 0.18s; }
+  .card[onclick]:hover .card-arrow { transform: translate(2px, -2px); }
+  .card-title { font-family: var(--font-display); font-weight: 700; font-size: 0.98rem; margin-bottom: 0.55rem; }
+  .card-desc { font-size: 0.82rem; line-height: 1.6; color: var(--muted); margin-bottom: 0.8rem; }
+  .card-year { font-family: var(--font-mono); font-size: 0.66rem; color: var(--muted); line-height: 1.5; }
+
+  /* ============ Skills ============ */
+  .skills { display: flex; flex-direction: column; }
+  .skill-group { padding: 1.1rem 0; border-bottom: var(--border-w-thin) solid rgba(16,32,26,0.12); }
+  .skill-group:last-child { border-bottom: none; }
+  .skill-label { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
+  .skill-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-pill {
+    font-family: var(--font-mono); font-size: 0.72rem;
+    border: var(--border-w-thin) solid var(--ink);
+    padding: 0.35rem 0.65rem;
+    background: var(--paper);
+  }
+
+  /* ============ Modal overlay & photo modals (shared across all designs) ============ */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 500;
+    background: rgba(16,32,26,0.78);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.2s ease;
+    padding: 2rem;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal-box {
+    position: relative;
+    background: var(--paper);
+    border: var(--border-w) solid var(--ink);
+    box-shadow: var(--shadow);
+    width: min(760px, 100%);
+    max-height: 85vh;
+    overflow-y: auto;
+    transform: translateY(10px);
+    transition: transform 0.25s ease;
+  }
+  .modal-overlay.open .modal-box { transform: translateY(0); }
+  .modal-close {
+    position: sticky; top: 0.8rem; float: right; margin: 0.8rem 0.8rem 0 0;
+    width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; background: var(--paper); border: var(--border-w-thin) solid var(--ink);
+    cursor: pointer; z-index: 2;
+  }
+  .modal-close:hover { background: var(--accent); color: var(--on-accent); }
+  .modal-inner { padding: 2.2rem 2.6rem 2.6rem; clear: both; }
+  .modal-inner .modal-tag {
+    display: inline-block; font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--on-accent); background: var(--accent); padding: 0.25rem 0.6rem; margin-bottom: 0.8rem;
+  }
+  .modal-inner .modal-title { font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; margin-bottom: 1.6rem; }
+  .modal-section-label {
+    font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--accent); border-bottom: var(--border-w-thin) solid rgba(16,32,26,0.2);
+    padding-bottom: 0.4rem; margin: 1.8rem 0 0.9rem;
+  }
+  .modal-section-label:first-of-type { margin-top: 0; }
+  .modal-desc { font-size: 0.88rem; line-height: 1.65; color: var(--muted); margin-bottom: 1rem; }
+  .modal-photos { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .modal-photo-slot {
+    flex: 0 0 200px; width: 200px; aspect-ratio: 4/3; overflow: hidden; position: relative;
+    background: var(--paper-alt); border: var(--border-w-thin) solid var(--ink); cursor: zoom-in;
+  }
+  .modal-photo-slot img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.2s; }
+  .modal-photo-slot:hover img { transform: scale(1.05); }
+  .modal-photo-item { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+  .modal-photo-caption {
+    font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.03em; color: var(--muted);
+    text-align: center; max-width: 200px;
+  }
+  .modal-photo-slot--portrait { aspect-ratio: 3/4; flex: 0 0 160px; width: 160px; }
+  .modal-photo-slot--portrait + .modal-photo-caption,
+  .modal-photo-item:has(.modal-photo-slot--portrait) .modal-photo-caption { max-width: 160px; }
+  .modal-photo-slot--contain {
+    aspect-ratio: auto; flex: 0 0 100%; width: 100%; max-width: 100%; background: var(--paper);
+  }
+  .modal-photo-slot--contain img { object-fit: contain; }
+  .modal-palmares { display: flex; flex-direction: column; gap: 0.6rem; }
+  .modal-palmares-item { font-size: 0.85rem; line-height: 1.5; color: var(--muted); }
+  .modal-palmares-year {
+    font-family: var(--font-mono); font-size: 0.65rem; color: var(--on-accent); background: var(--accent);
+    padding: 0.15rem 0.4rem; margin-right: 0.5rem;
+  }
+
+  /* ============ Photo lightbox ============ */
+  .photo-lightbox {
+    position: fixed; inset: 0; z-index: 600;
+    background: rgba(8,16,13,0.94);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+  }
+  .photo-lightbox.open { opacity: 1; pointer-events: all; }
+  .photo-lightbox img { max-width: 88vw; max-height: 82vh; object-fit: contain; border: var(--border-w-thin) solid rgba(255,255,255,0.2); }
+  .lightbox-nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: var(--paper); color: var(--ink);
+    border: var(--border-w-thin) solid var(--cream);
+    width: 46px; height: 46px; border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; cursor: pointer;
+  }
+  .lightbox-prev { left: 2rem; }
+  .lightbox-next { right: 2rem; }
+  .lightbox-nav:hover { background: var(--accent); color: var(--on-accent); }
+  .lightbox-pdf-btn {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    font-family: var(--font-mono); font-size: 0.75rem; text-decoration: none;
+    background: var(--accent); color: var(--on-accent); padding: 0.7rem 1.2rem; border: var(--border-w-thin) solid var(--ink);
+  }
+
+  @media (max-width: 640px) {
+    .modal-photo-slot, .modal-photo-slot--portrait { width: 130px; flex-basis: 130px; }
+  }
+
+  /* ============ Footer (inside About folder) ============ */
+  .mini-footer {
+    margin-top: 2.5rem; padding-top: 1.5rem; border-top: var(--border-w-thin) solid rgba(16,32,26,0.15);
+    display: flex; flex-direction: column; gap: 0.3rem;
+  }
+  .mini-footer .f-name { font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; }
+  .mini-footer .f-mono { font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); }
+
+  /* ============ Mobile ============ */
+  @media (max-width: 860px) {
+    .app { flex-direction: column; }
+    .rail {
+      position: sticky; top: 0; width: 100%; height: auto;
+      flex-direction: row; align-items: center; gap: 1rem;
+      padding: 0.9rem 1.1rem; z-index: 80;
+      overflow-y: visible;
+    }
+    .rail-photo { width: 44px; aspect-ratio: 1/1; max-height: none; }
+    .rail-id { flex: 1 1 auto; gap: 0.1rem; }
+    .rail-name { font-size: 0.95rem; }
+    .rail-role { display: none; }
+    .rail-links { flex-direction: row; margin-top: 0; }
+    .rail-links a span.link-text { display: none; }
+    .rail-links a { padding: 0.5rem 0.6rem; }
+    .rail-foot { margin-top: 0; flex-direction: row; align-items: center; gap: 0.6rem; }
+    .rail-tagline { display: none; }
+
+    .main { padding: 1.2rem 1rem 3rem; }
+    .folder:nth-child(odd), .folder:nth-child(even) { transform: none; }
+    .folder.open {
+      position: fixed; inset: 0; z-index: 90;
+    }
+    .folder-scroll { padding: 1.6rem 1.3rem 2.5rem; }
+    .timeline-item { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <aside class="rail">
+    <img class="rail-photo" src="benoit.jpg" alt="Benoît Gadret">
+    <div class="rail-id">
+      <div class="rail-name">Benoît Gadret</div>
+      <div class="rail-role">First-year engineering student<br>Arts et Métiers (ENSAM)</div>
+    </div>
+    <nav class="rail-links">
+      <a href="Benoit_GADRET.pdf" target="_blank"><span class="link-text">Resume</span> ↗</a>
+      <a href="https://www.linkedin.com/in/benoit-gadret-683983384/" target="_blank"><span class="link-text">LinkedIn</span> ↗</a>
+      <a href="mailto:benoitgadret@gmail.com"><span class="link-text">Email</span> ↗</a>
+    </nav>
+    <div class="rail-foot">
+      <span class="rail-tagline">Portfolio · 2025—2026</span>
+      <a class="other-versions-link" href="designs.html">Autres versions →</a>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="stack" id="stack">
+      <p class="stack-intro">Select a folder to open</p>
+
+      <!-- ===== FOLDER: About ===== -->
+      <div class="folder" data-section="about">
+        <button class="tab-btn" id="tab-about" aria-expanded="false" aria-controls="folder-about" onclick="openFolder('about')">
+          <span class="tab-index">01</span>
+          <span class="tab-label">About</span>
+          <span class="tab-arrow">↗</span>
+        </button>
+        <div class="folder-panel" id="folder-about">
+          <div class="folder-panel-head">
+            <span class="head-label">About</span>
+            <button class="folder-close" aria-label="Close folder" onclick="closeFolder()">×</button>
+          </div>
+          <div class="folder-scroll">
+            <img class="about-photo" src="benoit.jpg" alt="Benoît Gadret">
+            <div class="about-text">
+              <p>Born and raised in Bordeaux, now based in Paris and studying at Arts et Métiers in Lille (ENSAM). Welcome to my portfolio — the best way to get to know me.</p>
+              <p>I grew up surrounded by engineers, oval balls, and sheet music. A twin by birth, a photographer by passion, a rugby player by nature. Engineering is just the way I found to tie it all together.</p>
+              <a href="Benoit_GADRET.pdf" target="_blank" class="btn btn-primary">VIEW FULL RESUME (PDF) →</a>
+              <div class="contact-card">
+                <h4>Contact Details</h4>
+                <div class="fact-row"><span>Phone</span><span>+33 7 85 42 52 27</span></div>
+                <div class="fact-row"><span>Email</span><a href="mailto:benoitgadret@gmail.com">benoitgadret@gmail.com</a></div>
+                <div class="fact-row"><span>LinkedIn</span><a href="https://www.linkedin.com/in/benoit-gadret-683983384/" target="_blank">Profile →</a></div>
+              </div>
+            </div>
+            <div class="mini-footer">
+              <span class="f-name">Benoît Gadret</span>
+              <span class="f-mono">Portfolio · Master's Application · 2026</span>
+              <span class="f-mono">benoitgadret@gmail.com</span>
+              <span class="f-mono">benoit.gadret@ensam.eu</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== FOLDER: Projects ===== -->
+      <div class="folder" data-section="projects">
+        <button class="tab-btn" id="tab-projects" aria-expanded="false" aria-controls="folder-projects" onclick="openFolder('projects')">
+          <span class="tab-index">02</span>
+          <span class="tab-label">Projects</span>
+          <span class="tab-arrow">↗</span>
+        </button>
+        <div class="folder-panel" id="folder-projects">
+          <div class="folder-panel-head">
+            <span class="head-label">Academic Projects</span>
+            <button class="folder-close" aria-label="Close folder" onclick="closeFolder()">×</button>
+          </div>
+          <div class="folder-scroll">
+            <div class="timeline">
+
+              <div class="timeline-item">
+                <div class="timeline-date">Sep 2026 — Present</div>
+                <div class="timeline-content">
+                  <div class="school">Biomechanical Research · ENSAM</div>
+                  <h3>Shoulder Prosthesis Design &amp; Optimization</h3>
+                  <p>Ongoing research project studying glenoid-component geometries for shoulder implants, using contact-mechanics analysis to understand and help reduce the risk of implant loosening over time.</p>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-date">Jan 2026 — Jun 2026</div>
+                <div class="timeline-content">
+                  <div class="school">Energy Systems Engineering</div>
+                  <h3>Simulation &amp; Sizing of a Photovoltaic Production System</h3>
+                  <p>Led a comprehensive project on a complete solar energy system using MATLAB-Simulink. Analyzed PV cell manufacturing, electrical characteristics, and grid connection strategies. Built simulation models to control and size the system to meet specific energy demands, while managing group workflows and corrective actions.</p>
+                  <div class="doc-preview-row">
+                    <div class="doc-thumb" onclick="openLightbox('pdf-thumbs/capteur-solaire.jpg', event, 'Groupe4_capteur_solaire.pdf')">
+                      <img src="pdf-thumbs/capteur-solaire.jpg" alt="Aperçu du rapport - Capteur solaire">
+                    </div>
+                    <a href="Groupe4_capteur_solaire.pdf" target="_blank" class="link-row">
+                      <span class="link-row-icon">↗</span><span class="link-row-text">View Project Report (PDF)</span><span class="link-row-arrow">↗</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-date">Dec 2025 — Jan 2026</div>
+                <div class="timeline-content">
+                  <div class="school">Manufacturing Processes · Foundry</div>
+                  <h3>Sand Casting of an AlSi7 Part</h3>
+                  <p>Complete sand-casting cycle of an AlSi7 aluminium part, from design calculations to inspection of the casting. Sized the riser using the thermal modulus method and the gating system from the flow-rate equation, then built the two-part sand mould with resin-bonded cores and poured the part at about 765 °C. Inspection showed no shrinkage cavity, which validates the riser design; the 4.3 s pouring time (3 s targeted) and the 1.9 % linear shrinkage (1.25 % expected) were analysed and explained. Improvement paths: numerical simulation and exothermic risers.</p>
+                  <div class="doc-preview-row">
+                    <div class="doc-thumb" onclick="openLightbox('pdf-thumbs/fonderie.jpg', event, 'TP_Fonderie.pdf')">
+                      <img src="pdf-thumbs/fonderie.jpg" alt="Aperçu du rapport - Fonderie">
+                    </div>
+                    <a href="TP_Fonderie.pdf" target="_blank" class="link-row">
+                      <span class="link-row-icon">↗</span><span class="link-row-text">View Project Report (PDF)</span><span class="link-row-arrow">↗</span>
+                    </a>
+                    <div onclick="openModal('modal-fonderie'); event.stopPropagation();" class="link-row" style="cursor: pointer;">
+                      <span class="link-row-icon">↗</span><span class="link-row-text">View Project Photos</span><span class="link-row-arrow">↗</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-date">Sep 2025 — Jan 2026</div>
+                <div class="timeline-content">
+                  <div class="school">Machine Learning &amp; Computer Vision</div>
+                  <h3>Image Classification via Convolutional Neural Networks (CNN)</h3>
+                  <p>Developed a supervised learning model to classify a dataset of 70,000 RGB images into 10 distinct categories. Implemented Convolutional Neural Networks (CNN) and dense layers to optimize pattern recognition and accuracy, mastering the end-to-end methodology of modern AI projects.</p>
+                  <div class="doc-preview-row">
+                    <div class="doc-thumb" onclick="openLightbox('pdf-thumbs/pjt-cnn.jpg', event, 'Rapport_PJT_225 copie.pdf')">
+                      <img src="pdf-thumbs/pjt-cnn.jpg" alt="Aperçu du rapport - CNN">
+                    </div>
+                    <a href="Rapport_PJT_225 copie.pdf" target="_blank" class="link-row">
+                      <span class="link-row-icon">↗</span><span class="link-row-text">View Project Report (PDF)</span><span class="link-row-arrow">↗</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-date">2023 — 2025</div>
+                <div class="timeline-content">
+                  <div class="school">TIPE · Research &amp; Engineering Project</div>
+                  <h3>Hydrogen Fuel Cell Sizing for Automotive Applications</h3>
+                  <p>Conducted a study on the dimensioning and performance of hydrogen fuel cells. Developed a predictive model using Python to simulate energy efficiency and performed experimental testing to validate theoretical data for future mobility solutions.</p>
+                  <div class="doc-preview-row">
+                    <div class="doc-thumb" onclick="openLightbox('pdf-thumbs/tipe-hydrogene.jpg', event, 'TIPE_Gadret.pdf')">
+                      <img src="pdf-thumbs/tipe-hydrogene.jpg" alt="Aperçu de la présentation - TIPE">
+                    </div>
+                    <a href="TIPE_Gadret.pdf" target="_blank" class="link-row">
+                      <span class="link-row-icon">↗</span><span class="link-row-text">View Project Presentation (PDF)</span><span class="link-row-arrow">↗</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== FOLDER: Education ===== -->
+      <div class="folder" data-section="education">
+        <button class="tab-btn" id="tab-education" aria-expanded="false" aria-controls="folder-education" onclick="openFolder('education')">
+          <span class="tab-index">03</span>
+          <span class="tab-label">Education</span>
+          <span class="tab-arrow">↗</span>
+        </button>
+        <div class="folder-panel" id="folder-education">
+          <div class="folder-panel-head">
+            <span class="head-label">Education</span>
+            <button class="folder-close" aria-label="Close folder" onclick="closeFolder()">×</button>
+          </div>
+          <div class="folder-scroll">
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-date">2025 — 2028</div>
+                <div class="timeline-content">
+                  <div class="school">ENSAM — Arts et Métiers</div>
+                  <h3>Master of Engineering</h3>
+                  <p>General engineering program with a strong focus on Mechanical and Industrial engineering, covering design, manufacturing, and applied sciences.</p>
+                  <div class="timeline-gpa">GPA 3.91 / 4.0</div>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-date">2023 — 2025</div>
+                <div class="timeline-content">
+                  <div class="school">Preparatory Classes (CPGE) — La Salle Passy Buzenval</div>
+                  <h3>Undergraduate intensive program</h3>
+                  <p>Two-year intensive program in Mathematics, Physics, and Engineering Sciences.</p>
+                  <div class="timeline-gpa">GPA 4.00 / 4.0</div>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-date">2020 — 2023</div>
+                <div class="timeline-content">
+                  <div class="school">Lycée La Rochefoucauld</div>
+                  <h3>Baccalauréat</h3>
+                  <p>French high school diploma. Specializing in Mathematics, Physics, and Life &amp; Earth Sciences.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== FOLDER: Experience ===== -->
+      <div class="folder" data-section="experience">
+        <button class="tab-btn" id="tab-experience" aria-expanded="false" aria-controls="folder-experience" onclick="openFolder('experience')">
+          <span class="tab-index">04</span>
+          <span class="tab-label">Experience</span>
+          <span class="tab-arrow">↗</span>
+        </button>
+        <div class="folder-panel" id="folder-experience">
+          <div class="folder-panel-head">
+            <span class="head-label">Experience</span>
+            <button class="folder-close" aria-label="Close folder" onclick="closeFolder()">×</button>
+          </div>
+          <div class="folder-scroll">
+            <div class="timeline">
+
+              <div class="timeline-item">
+                <div class="timeline-date">Jun 2026 — Jul 2026</div>
+                <div class="timeline-content">
+                  <div class="school">Duffau Technologies</div>
+                  <h3>Engineering Intern</h3>
+                  <p>Six-week internship at an industrial compressed-air, vacuum and gas-handling company (~170 employees), working on custom equipment for aerospace, defense and research clients including ArianeGroup, Naval Group and Air France Industries. Rotated across CAD design, pneumatic engineering, electrical automation and technical-commercial work.</p>
+                  <ul>
+                    <li>Modeled mechanical and pneumatic components in SolidWorks, including a protective cover for an aerospace client and lab-bench fittings for a university client</li>
+                    <li>Designed pneumatic schematics for a spatial-industry test bench and a high-pressure air/nitrogen network for a naval defense client</li>
+                    <li>Reverse-engineered an undocumented industrial electrical cabinet and configured a controller for an aerospace client</li>
+                    <li>Built a web-based sizing tool linked to a manufacturer's parts database to speed up pre-sales quoting</li>
+                    <li>Produced technical-commercial cost estimates (up to €18,400) balancing engineering constraints with cost viability</li>
+                  </ul>
+                  <div class="doc-preview-row">
+                    <a href="Rapport_de_Stage_Benoit_GADRET.pdf" target="_blank" class="link-row">
+                      <span class="link-row-icon">↗</span><span class="link-row-text">View Internship Report (PDF)</span><span class="link-row-arrow">↗</span>
+                    </a>
+                    <div onclick="openModal('modal-duffau'); event.stopPropagation();" class="link-row" style="cursor: pointer;">
+                      <span class="link-row-icon">↗</span><span class="link-row-text">View Internship Photos</span><span class="link-row-arrow">↗</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-date">Apr 2026 — Present</div>
+                <div class="timeline-content">
+                  <div class="school">ENSAM</div>
+                  <h3>Corporate Relations Team</h3>
+                  <p>Selected to a 4-person team managing the link between 320 engineering students and a network of 39 corporate partners (including Hermès, ArcelorMittal, Alstom, EDF, Framatome, KPMG, Schneider Electric). Co-organizes the school's annual career forum, industrial site visits and recruiter networking events.</p>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-date">Apr 2026 — Present</div>
+                <div class="timeline-content">
+                  <div class="school">AMJE Lille (Junior-Enterprise)</div>
+                  <h3>Project Manager</h3>
+                  <p>Runs client-facing engineering consulting missions end-to-end for the school's Junior-Enterprise — from prospecting industrial partners and scoping technical requirements, to drafting commercial proposals and quotations through to final delivery.</p>
+                </div>
+              </div>
+
+              <div class="timeline-item timeline-item-minor">
+                <div class="timeline-date">Sep 2025 — Present</div>
+                <div class="timeline-content">
+                  <div class="school">Private Tutor</div>
+                  <h3>Mathematics, Physics &amp; Engineering Sciences</h3>
+                  <p>Coaches high-school students individually, adapting teaching methods to each student's level.</p>
+                </div>
+              </div>
+
+              <div class="timeline-item timeline-item-minor" onclick="openModal('modal-corbin')" style="cursor:pointer;">
+                <div class="timeline-date">Jun–Jul 2022 &amp; Jul–Aug 2024 &amp; 2025</div>
+                <div class="timeline-content">
+                  <div class="school">Château Corbin</div>
+                  <h3>Vineyard &amp; Winery Worker</h3>
+                  <p>Seasonal work at a Bordeaux Grand Cru Classé estate, assisting winemakers with fermentation and cellar operations, and taking part in vineyard fieldwork (shoot thinning, leaf removal).</p>
+                  <div class="link-row" style="margin-top: 8px;">
+                    <span class="link-row-icon">↗</span><span class="link-row-text">View photos</span><span class="link-row-arrow">↗</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== FOLDER: Extracurricular ===== -->
+      <div class="folder" data-section="extracurricular">
+        <button class="tab-btn" id="tab-extracurricular" aria-expanded="false" aria-controls="folder-extracurricular" onclick="openFolder('extracurricular')">
+          <span class="tab-index">05</span>
+          <span class="tab-label">Extracurricular</span>
+          <span class="tab-arrow">↗</span>
+        </button>
+        <div class="folder-panel" id="folder-extracurricular">
+          <div class="folder-panel-head">
+            <span class="head-label">Extracurricular &amp; Interests</span>
+            <button class="folder-close" aria-label="Close folder" onclick="closeFolder()">×</button>
+          </div>
+          <div class="folder-scroll">
+            <div class="cards-grid">
+              <div class="card" onclick="openModal('modal-rugby')">
+                <div class="card-tag">Rugby</div>
+                <div class="card-arrow">↗</div>
+                <h3 class="card-title">Team Captain</h3>
+                <p class="card-desc">Competed at the Regional 1 level. Elected team captain by my teammates. Selected for the Hauts-de-Seine (92) Departmental Team for inter-district competitions.</p>
+                <div class="card-year">Rugby Club Paris-Neuilly — 5 years<br>CPGE La Salle Passy Buzenval — 2 years<br>XV Birois — 1 year</div>
+                <div class="link-row" style="margin-top: 8px;"><span class="link-row-icon">↗</span><span class="link-row-text">View photos</span><span class="link-row-arrow">↗</span></div>
+              </div>
+
+              <div class="card" onclick="openModal('modal-mountaineering')">
+                <div class="card-tag">Mountaineering</div>
+                <div class="card-arrow">↗</div>
+                <h3 class="card-title">In the Mountains</h3>
+                <p class="card-desc">A lifelong passion inherited from my family. From rock climbing on crags to high-altitude mountaineering, ski touring in the backcountry, the mountains have shaped my ability to manage risk, stay composed under pressure, and push through physical and mental limits.</p>
+                <div class="card-year">Family activity — practiced since childhood</div>
+                <div class="link-row" style="margin-top: 8px;"><span class="link-row-icon">↗</span><span class="link-row-text">View photos</span><span class="link-row-arrow">↗</span></div>
+              </div>
+
+              <div class="card" onclick="openModal('modal-sailing')">
+                <div class="card-tag">Sailing</div>
+                <div class="card-arrow">↗</div>
+                <h3 class="card-title">On the Water</h3>
+                <p class="card-desc">Active member of the Arts et Métiers sailing association, racing in the Course Croisière EDHEC — one of Europe's largest student sporting events, bringing together thousands of participants every year.</p>
+                <div class="card-year">2025 —</div>
+                <div class="link-row" style="margin-top: 8px;"><span class="link-row-icon">↗</span><span class="link-row-text">View photos</span><span class="link-row-arrow">↗</span></div>
+              </div>
+
+              <div class="card">
+                <div class="card-tag">Volunteering</div>
+                <div class="card-arrow">↗</div>
+                <h3 class="card-title">Lourdes Pilgrimages</h3>
+                <p class="card-desc">Multiple weeks serving with Hospitalité Bordelaise. Provided full-time assistance and care for people with severe disabilities. A deep experience in human service, resilience, and individual commitment.</p>
+                <div class="card-year">2017 &amp; 2023 &amp; 2024 · Hospitalité Bordelaise</div>
+              </div>
+
+              <div class="card" onclick="openModal('modal-nepal')">
+                <div class="card-tag">International Volunteer</div>
+                <div class="card-arrow">↗</div>
+                <h3 class="card-title">Educational Mission — Nepal</h3>
+                <p class="card-desc">Spent a month in Kathmandu with The Green Lion association, assisting teachers and organizing activities for local schoolchildren.</p>
+                <div class="card-year">July 2022 · Kathmandu, Nepal</div>
+                <div class="link-row" style="margin-top: 8px;"><span class="link-row-icon">↗</span><span class="link-row-text">View photos</span><span class="link-row-arrow">↗</span></div>
+              </div>
+
+              <div class="card">
+                <div class="card-tag">Music</div>
+                <div class="card-arrow">↗</div>
+                <h3 class="card-title">Piano</h3>
+                <p class="card-desc">Twelve years of classical training. This long-term commitment developed my discipline and technical precision, specifically through the study of complex pieces like Beethoven's sonatas.</p>
+                <div class="card-year">2013 — Present</div>
+              </div>
+
+              <div class="card">
+                <div class="card-tag">Creative Arts</div>
+                <div class="card-arrow">↗</div>
+                <h3 class="card-title">Photography &amp; Editing</h3>
+                <p class="card-desc">Exploring the world through a lens with a focus on composition and light. I manage the full creative process, including advanced post-processing and color grading on Adobe Lightroom to refine every detail.</p>
+                <a href="https://gadret.myportfolio.com/" target="_blank" class="link-row" style="margin-top: 1.2rem;">
+                  <span class="link-row-icon">↗</span><span class="link-row-text">View Adobe Portfolio</span><span class="link-row-arrow">→</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== FOLDER: Skills ===== -->
+      <div class="folder" data-section="skills">
+        <button class="tab-btn" id="tab-skills" aria-expanded="false" aria-controls="folder-skills" onclick="openFolder('skills')">
+          <span class="tab-index">06</span>
+          <span class="tab-label">Skills</span>
+          <span class="tab-arrow">↗</span>
+        </button>
+        <div class="folder-panel" id="folder-skills">
+          <div class="folder-panel-head">
+            <span class="head-label">Skills &amp; Languages</span>
+            <button class="folder-close" aria-label="Close folder" onclick="closeFolder()">×</button>
+          </div>
+          <div class="folder-scroll">
+            <div class="skills">
+              <div class="skill-group">
+                <div class="skill-label">Mechanical Engineering</div>
+                <div class="skill-pills">
+                  <span class="skill-pill">Solid &amp; Fluid Mechanics</span>
+                  <span class="skill-pill">Thermodynamics</span>
+                  <span class="skill-pill">Structural Analysis</span>
+                  <span class="skill-pill">Control Systems</span>
+                  <span class="skill-pill">Abaqus</span>
+                </div>
+              </div>
+              <div class="skill-group">
+                <div class="skill-label">Programming</div>
+                <div class="skill-pills">
+                  <span class="skill-pill">Python</span>
+                  <span class="skill-pill">MATLAB</span>
+                  <span class="skill-pill">SQL</span>
+                </div>
+              </div>
+              <div class="skill-group">
+                <div class="skill-label">CAD &amp; Design</div>
+                <div class="skill-pills">
+                  <span class="skill-pill">SolidWorks</span>
+                  <span class="skill-pill">CATIA</span>
+                  <span class="skill-pill">TopSolid</span>
+                </div>
+              </div>
+              <div class="skill-group">
+                <div class="skill-label">Fabrication</div>
+                <div class="skill-pills">
+                  <span class="skill-pill">3D Printing</span>
+                  <span class="skill-pill">CNC Machining</span>
+                  <span class="skill-pill">Prototyping</span>
+                </div>
+              </div>
+              <div class="skill-group">
+                <div class="skill-label">Tools</div>
+                <div class="skill-pills">
+                  <span class="skill-pill">VSCode</span>
+                  <span class="skill-pill">LaTeX</span>
+                  <span class="skill-pill">iTools</span>
+                  <span class="skill-pill">Adobe Lightroom</span>
+                </div>
+              </div>
+              <div class="skill-group">
+                <div class="skill-label">Languages</div>
+                <div class="skill-pills">
+                  <span class="skill-pill">French — Native</span>
+                  <span class="skill-pill">English — Fluent</span>
+                  <span class="skill-pill">Spanish — Advanced</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- ============ Photo lightbox (shared) ============ -->
+<div id="photo-lightbox" class="photo-lightbox" onclick="closeLightbox()">
+  <button id="lightbox-prev" class="lightbox-nav lightbox-prev" onclick="event.stopPropagation(); navLightbox(-1)" aria-label="Previous photo" hidden>‹</button>
+  <img id="lightbox-img" src="" alt="">
+  <button id="lightbox-next" class="lightbox-nav lightbox-next" onclick="event.stopPropagation(); navLightbox(1)" aria-label="Next photo" hidden>›</button>
+  <a id="lightbox-pdf-link" class="lightbox-pdf-btn" href="#" target="_blank" onclick="event.stopPropagation()" hidden>Open full PDF ↗</a>
+</div>
+
+<!-- ============ MODAL OVERLAY ============ -->
+<div id="modal-overlay" class="modal-overlay" onclick="closeModal(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div id="modal-content" class="modal-inner"></div>
+  </div>
+</div>
+
+<!-- MODAL DATA: Rugby -->
+<div id="modal-rugby" style="display:none">
+  <div class="modal-tag">Rugby</div>
+  <h2 class="modal-title">Rugby</h2>
+
+  <div class="modal-section-label">Rugby Club Paris-Neuilly — 2019 · 2024</div>
+  <div class="modal-photos">
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="rugby/RCPN.JPG" alt="RCPN"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="rugby/RCPN2.JPG" alt="RCPN 2"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="rugby/RCPN3.JPG" alt="RCPN 3"></div>
+  </div>
+
+  <div class="modal-section-label">Hauts-de-Seine (92) Departmental Selection</div>
+  <div class="modal-photos">
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="rugby/Selection92.JPG" alt="Selection 92"></div>
+  </div>
+
+  <div class="modal-section-label">XV Birois — Arts et Métiers Lille — 2025 –</div>
+  <div class="modal-photos">
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="rugby/GUAI.jpeg" alt="GUAI"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="rugby/Ovalies1.jpeg" alt="Ovalies"></div>
+  </div>
+
+  <div class="modal-section-label">Achievements</div>
+  <div class="modal-palmares">
+    <div class="modal-palmares-item"><span class="modal-palmares-year">2025</span>TEC de Lille Final — 7s Tournament</div>
+    <div class="modal-palmares-item"><span class="modal-palmares-year">2026</span><span>Ovalies Final — 7s Rugby<br><span style="font-size:0.8em;color:var(--muted);">Europe's largest university rugby tournament with a charitable purpose</span></span></div>
+    <div class="modal-palmares-item"><span class="modal-palmares-year">2026</span>GUAI Winners — Arts et Métiers inter-campus tournament · First victory for the Lille campus since 1997</div>
+  </div>
+</div>
+
+<!-- MODAL DATA: Mountaineering -->
+<div id="modal-mountaineering" style="display:none">
+  <div class="modal-tag">Mountaineering</div>
+  <h2 class="modal-title">In the Mountains</h2>
+  <div class="modal-photos">
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="montagne/IMG_0902.jpeg" alt="Mountaineering"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="montagne/RemoteMediaFile_6553932_0_2022_08_12_10_49_40.jpg" alt="Mountaineering"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="montagne/FullSizeRender.jpeg" alt="Mountaineering"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="montagne/IMG_1603.JPG" alt="Mountaineering"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="montagne/IMG_1605.JPG" alt="Mountaineering"></div>
+  </div>
+</div>
+
+<!-- MODAL DATA: Corbin -->
+<div id="modal-corbin" style="display:none">
+  <div class="modal-tag">Vineyard &amp; Winery</div>
+  <h2 class="modal-title">Château Corbin</h2>
+  <div class="modal-section-label">Bordeaux Grand Cru Classé — Jun–Jul 2022 &amp; Jul–Aug 2024 &amp; 2025</div>
+  <p class="modal-desc">Seasonal work at a Bordeaux Grand Cru Classé estate, assisting winemakers with fermentation and cellar operations, and taking part in vineyard fieldwork (shoot thinning, leaf removal).</p>
+  <div class="modal-photos">
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="corbin/corbin1.jpeg" alt="Château Corbin"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="corbin/corbin2.jpeg" alt="Château Corbin"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="corbin/corbin5.jpeg" alt="Château Corbin"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="corbin/corbin6.jpeg" alt="Château Corbin"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="corbin/corbin7.jpeg" alt="Château Corbin"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="corbin/corbin8.jpeg" alt="Château Corbin"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="corbin/corbin9.jpeg" alt="Château Corbin"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="corbin/corbin10.jpeg" alt="Château Corbin"></div>
+  </div>
+</div>
+
+<!-- MODAL DATA: Duffau Internship -->
+<div id="modal-duffau" style="display:none">
+  <div class="modal-tag">Engineering Intern</div>
+  <h2 class="modal-title">Duffau Technologies</h2>
+
+  <div class="modal-section-label">CAD Design &amp; Custom Solutions</div>
+  <p class="modal-desc">Modeled under SolidWorks, from the dimensioned drawing to the manufactured part: a custom fluid-fitting panel for a university laboratory, and a protective cyclofilter cover for an aerospace client.</p>
+  <div class="modal-photos">
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="stage/stage-cao-01.jpg" alt="Custom fluid-fitting panel designed for a university laboratory"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="stage/stage-cao-02.jpg" alt="SolidWorks dimensioned drawing of the cyclofilter protective cover"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="stage/stage-cao-03.jpg" alt="Manufactured cyclofilter protective cover, for an aerospace client"></div>
+  </div>
+
+  <div class="modal-section-label">Pneumatic Engineering &amp; High-Pressure Systems</div>
+  <p class="modal-desc">Design, costing and integration of pneumatic panels (solenoid valves, needle valves, ozone destructor), schematics under DraftSight, and contribution to a paint mixing and pumping bench.</p>
+  <p class="modal-desc" style="margin-top: -0.6rem;">Redesign of a pneumatic panel: <!-- TODO (Benoît): fill in the improvement sentence -->[improvement sentence to complete].</p>
+  <div class="modal-photos">
+    <div class="modal-photo-item">
+      <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="stage/stage-pneu-af-01.jpg" alt="Previous pneumatic panel, initial version"></div>
+      <span class="modal-photo-caption">Initial version</span>
+    </div>
+    <div class="modal-photo-item">
+      <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="stage/stage-pneu-af-02.jpg" alt="New pneumatic panel designed under SolidWorks and costed"></div>
+      <span class="modal-photo-caption">Version designed under SolidWorks and costed</span>
+    </div>
+  </div>
+  <div class="modal-photos" style="margin-top: 12px;">
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="stage/stage-pneu-banc-01.jpg" alt="Paint mixing and pumping bench"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="stage/stage-pneu-banc-02.jpg" alt="Pneumatic panel of the paint mixing and pumping bench"></div>
+  </div>
+
+  <div class="modal-section-label">Electrical, Automation &amp; Digital Tools</div>
+  <p class="modal-desc">Reverse-engineered and schematized an electrical cabinet with no original drawings; developed a web-based sizing tool for compressed-air plants.</p>
+  <div class="modal-photos">
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="stage/stage-elec-01.jpg" alt="Industrial electrical cabinet, reverse-engineered and schematized with no original drawings"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="stage/stage-elec-02.jpg" alt="Interface of the web-based compressed-air plant sizing tool"></div>
+  </div>
+
+  <div class="modal-section-label">Metrology &amp; Testing</div>
+  <p class="modal-desc">Helium leak-tightness tests on machined parts, using a Phoenix XL 300 analyzer.</p>
+  <div class="modal-photos">
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="stage/stage-metro-01.jpg" alt="Machined part suspended during a helium leak-tightness test"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="stage/stage-metro-02.jpg" alt="Setup under a plastic sheet for helium leak detection"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="stage/stage-metro-03.jpg" alt="Phoenix XL 300 helium leak analyzer"></div>
+  </div>
+</div>
+
+<!-- MODAL DATA: Fonderie -->
+<div id="modal-fonderie" style="display:none">
+  <div class="modal-tag">Manufacturing Processes</div>
+  <h2 class="modal-title">Sand Casting of an AlSi7 Part</h2>
+
+  <div class="modal-section-label">Gating System Design</div>
+  <p class="modal-desc">Sized the riser using the thermal modulus method and the gating system from the flow-rate equation.</p>
+  <div class="modal-photos">
+    <div class="modal-photo-slot modal-photo-slot--contain" onclick="openLightbox(this,event)"><img src="fonderie/fonderie-schema-01.jpg" alt="Simplified diagram of the mould and the dimensions studied"></div>
+  </div>
+
+  <div class="modal-section-label">Mould Making</div>
+  <p class="modal-desc">Built the two-part sand mould with resin-bonded cores, from pattern placement to venting.</p>
+  <div class="modal-photos">
+    <div class="modal-photo-item">
+      <div class="modal-photo-slot modal-photo-slot--portrait" onclick="openLightbox(this,event)"><img src="fonderie/fonderie-moule-01.jpg" alt="Upper half: pattern, runner and riser patterns in place"></div>
+      <span class="modal-photo-caption">Upper half: pattern, runner and riser patterns in place</span>
+    </div>
+    <div class="modal-photo-item">
+      <div class="modal-photo-slot modal-photo-slot--portrait" onclick="openLightbox(this,event)"><img src="fonderie/fonderie-moule-02.jpg" alt="Cutting the ingates"></div>
+      <span class="modal-photo-caption">Cutting the ingates</span>
+    </div>
+    <div class="modal-photo-item">
+      <div class="modal-photo-slot modal-photo-slot--portrait" onclick="openLightbox(this,event)"><img src="fonderie/fonderie-moule-03.jpg" alt="Drilling the vent"></div>
+      <span class="modal-photo-caption">Drilling the vent</span>
+    </div>
+    <div class="modal-photo-item">
+      <div class="modal-photo-slot modal-photo-slot--portrait" onclick="openLightbox(this,event)"><img src="fonderie/fonderie-moule-04.jpg" alt="Resin-bonded cores placed in both halves"></div>
+      <span class="modal-photo-caption">Resin-bonded cores placed in both halves</span>
+    </div>
+  </div>
+
+  <div class="modal-section-label">Pouring</div>
+  <p class="modal-desc">Poured the AlSi7 alloy at about 765 °C.</p>
+  <div class="modal-photos">
+    <div class="modal-photo-item">
+      <div class="modal-photo-slot modal-photo-slot--portrait" onclick="openLightbox(this,event)"><img src="fonderie/fonderie-coulee-01.jpg" alt="Pouring the AlSi7 alloy at about 765 °C"></div>
+      <span class="modal-photo-caption">Pouring the AlSi7 alloy at about 765 °C</span>
+    </div>
+  </div>
+
+  <div class="modal-section-label">Inspection</div>
+  <p class="modal-desc">Inspection showed no shrinkage cavity, validating the riser design; pouring time and linear shrinkage were measured and analysed against targets.</p>
+  <div class="modal-photos">
+    <div class="modal-photo-item">
+      <div class="modal-photo-slot modal-photo-slot--portrait" onclick="openLightbox(this,event)"><img src="fonderie/fonderie-piece-01.jpg" alt="Casting cluster after pouring"></div>
+      <span class="modal-photo-caption">Casting cluster after pouring</span>
+    </div>
+    <div class="modal-photo-item">
+      <div class="modal-photo-slot modal-photo-slot--portrait" onclick="openLightbox(this,event)"><img src="fonderie/fonderie-piece-02.jpg" alt="Side view: riser and gating system, no shrinkage cavity"></div>
+      <span class="modal-photo-caption">Side view: riser and gating system, no shrinkage cavity</span>
+    </div>
+    <div class="modal-photo-item">
+      <div class="modal-photo-slot modal-photo-slot--portrait" onclick="openLightbox(this,event)"><img src="fonderie/fonderie-piece-03.jpg" alt="Surface defects analysed"></div>
+      <span class="modal-photo-caption">Surface defects analysed</span>
+    </div>
+    <div class="modal-photo-item">
+      <div class="modal-photo-slot modal-photo-slot--portrait" onclick="openLightbox(this,event)"><img src="fonderie/fonderie-controle-01.jpg" alt="Measuring the part to compute linear shrinkage"></div>
+      <span class="modal-photo-caption">Measuring the part to compute linear shrinkage</span>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DATA: Nepal -->
+<div id="modal-nepal" style="display:none">
+  <div class="modal-tag">International Volunteer</div>
+  <h2 class="modal-title">Educational Mission — Nepal</h2>
+  <div class="modal-section-label">The Green Lion — Kathmandu, July 2022</div>
+  <p class="modal-desc">Spent a month in Kathmandu with The Green Lion association, assisting teachers and organizing activities for local schoolchildren.</p>
+  <div class="modal-photos">
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="nepal/IMG_6928.JPG" alt="Educational Mission - Nepal"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="nepal/IMG_6976.jpeg" alt="Educational Mission - Nepal"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="nepal/IMG_6999.jpeg" alt="Educational Mission - Nepal"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="nepal/IMG_7011.jpeg" alt="Educational Mission - Nepal"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="nepal/IMG_7028.JPG" alt="Educational Mission - Nepal"></div>
+  </div>
+</div>
+
+<!-- MODAL DATA: Sailing -->
+<div id="modal-sailing" style="display:none">
+  <div class="modal-tag">Sailing</div>
+  <h2 class="modal-title">On the Water</h2>
+  <div class="modal-section-label">Course Croisière EDHEC — 2026</div>
+  <p class="modal-desc">Thanks to the support of our prestigious sponsors such as L'Oréal Groupe, Fareve, Yellow Advisory, or Tipii, our student association has the opportunity to participate in the 2026 edition of the Course Croisière EDHEC—Europe's largest student sporting event, which gathers thousands of participants every year for a legendary regatta. For this edition, we were proud to enter three sailboats competing across two different categories!</p>
+  <div class="modal-photos">
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="CCE/CCE1.jpg" alt="CCE 1"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="CCE/CCE2.jpg" alt="CCE 2"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="CCE/CCE3.jpeg" alt="CCE 3"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="CCE/CCE4.jpeg" alt="CCE 4"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="CCE/CCE5.jpeg" alt="CCE 5"></div>
+    <div class="modal-photo-slot" onclick="openLightbox(this,event)"><img src="CCE/CCE6.jpeg" alt="CCE 6"></div>
+  </div>
+</div>
+
+<script>
+  // ---------- Folder tabs ----------
+  const stackEl = document.getElementById('stack');
+
+  function openFolder(id, push = true) {
+    const folderEl = document.querySelector('.folder[data-section="' + id + '"]');
+    if (!folderEl) return;
+    document.querySelectorAll('.folder.open').forEach(f => {
+      if (f !== folderEl) {
+        f.classList.remove('open');
+        const otherTab = f.querySelector('.tab-btn');
+        if (otherTab) otherTab.setAttribute('aria-expanded', 'false');
+      }
+    });
+    folderEl.classList.add('open');
+    const tabBtn = folderEl.querySelector('.tab-btn');
+    tabBtn.setAttribute('aria-expanded', 'true');
+    stackEl.classList.add('has-open');
+    document.body.classList.add('folder-open');
+    if (push) {
+      history.pushState({ folder: id }, '', '#' + id);
+    }
+    const closeBtn = folderEl.querySelector('.folder-close');
+    if (closeBtn) closeBtn.focus();
+  }
+
+  function closeFolder(push = true) {
+    const openEl = document.querySelector('.folder.open');
+    if (!openEl) return;
+    const id = openEl.dataset.section;
+    openEl.classList.remove('open');
+    const tabBtn = openEl.querySelector('.tab-btn');
+    tabBtn.setAttribute('aria-expanded', 'false');
+    stackEl.classList.remove('has-open');
+    document.body.classList.remove('folder-open');
+    if (push) {
+      history.pushState({}, '', location.pathname + location.search);
+    }
+    tabBtn.focus();
+  }
+
+  window.addEventListener('popstate', () => {
+    const hash = location.hash.slice(1);
+    if (hash && document.querySelector('.folder[data-section="' + hash + '"]')) {
+      openFolder(hash, false);
+    } else {
+      closeFolder(false);
+    }
+  });
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const hash = location.hash.slice(1);
+    if (hash && document.querySelector('.folder[data-section="' + hash + '"]')) {
+      openFolder(hash, false);
+    }
+  });
+
+  // ---------- Photo lightbox ----------
+  let lightboxGallery = null;
+  let lightboxIndex = 0;
+
+  function openLightbox(elOrSrc, e, pdfHref) {
+    e.stopPropagation();
+    if (typeof elOrSrc === 'string') {
+      lightboxGallery = null;
+      lightboxIndex = 0;
+      document.getElementById('lightbox-img').src = elOrSrc;
+    } else {
+      const container = elOrSrc.closest('#modal-content') || document;
+      const slots = Array.from(container.querySelectorAll('.modal-photo-slot'));
+      lightboxGallery = slots.map(s => s.querySelector('img').src);
+      lightboxIndex = slots.indexOf(elOrSrc);
+      document.getElementById('lightbox-img').src = lightboxGallery[lightboxIndex];
+    }
+
+    const pdfLink = document.getElementById('lightbox-pdf-link');
+    if (pdfHref) {
+      pdfLink.href = pdfHref;
+      pdfLink.hidden = false;
+    } else {
+      pdfLink.hidden = true;
+    }
+
+    const showNav = lightboxGallery && lightboxGallery.length > 1;
+    document.getElementById('lightbox-prev').hidden = !showNav;
+    document.getElementById('lightbox-next').hidden = !showNav;
+
+    document.getElementById('photo-lightbox').classList.add('open');
+  }
+  function navLightbox(delta) {
+    if (!lightboxGallery || lightboxGallery.length < 2) return;
+    lightboxIndex = (lightboxIndex + delta + lightboxGallery.length) % lightboxGallery.length;
+    document.getElementById('lightbox-img').src = lightboxGallery[lightboxIndex];
+  }
+  function closeLightbox() {
+    document.getElementById('photo-lightbox').classList.remove('open');
+  }
+
+  // ---------- Modal ----------
+  function openModal(id) {
+    const data = document.getElementById(id);
+    document.getElementById('modal-content').innerHTML = data.innerHTML;
+    document.getElementById('modal-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(e) {
+    if (!e || e.target === document.getElementById('modal-overlay')) {
+      document.getElementById('modal-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+
+  // ---------- Combined keyboard handling ----------
+  document.addEventListener('keydown', e => {
+    const lightboxOpen = document.getElementById('photo-lightbox').classList.contains('open');
+    const modalOpen = document.getElementById('modal-overlay').classList.contains('open');
+    const folderOpen = !!document.querySelector('.folder.open');
+
+    if (e.key === 'Escape') {
+      if (lightboxOpen) { closeLightbox(); return; }
+      if (modalOpen) { closeModal(); return; }
+      if (folderOpen) { closeFolder(); return; }
+    }
+    if (lightboxOpen) {
+      if (e.key === 'ArrowRight') navLightbox(1);
+      if (e.key === 'ArrowLeft') navLightbox(-1);
+    }
+  });
+</script>
+</body>
+</html>
