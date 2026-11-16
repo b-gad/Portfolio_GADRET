@@ -37,9 +37,9 @@
     --motion-fast: 0.2s;
     --motion-mid: 0.35s;
 
-    --sheet-base-w: 480px;
-    --sheet-step-w: 6px;
-    --band-h: clamp(52px, 6.4vh, 68px);
+    --sheet-base-w: 580px;
+    --sheet-step-w: 9px;
+    --band-h: clamp(64px, 7.6vh, 86px);
     --mobile-rail-h: 64px;
   }
 
@@ -202,7 +202,7 @@
   .stack {
     position: relative;
     display: flow-root;
-    max-width: 880px;
+    max-width: 980px;
     margin: 0 auto;
   }
 
@@ -233,13 +233,13 @@
   .cover-wrap {
     position: relative;
     z-index: 10;
-    max-width: 560px;
+    max-width: 680px;
     margin: calc(5 * var(--band-h)) auto 0;
     transition: transform var(--motion-mid) ease, opacity var(--motion-fast) ease;
   }
   .cover {
     position: relative;
-    padding: 2.6rem 2.4rem 2.2rem;
+    padding: 3.2rem 3rem 2.8rem;
     background: var(--accent);
     color: var(--cream);
     border: var(--border-w-thin) solid var(--ink);
@@ -275,13 +275,13 @@
     font-family: var(--font-display);
     font-weight: 700;
     letter-spacing: -0.015em;
-    font-size: 1.1rem;
+    font-size: 1.35rem;
     line-height: 1.55;
     text-align: center;
-    margin-bottom: 1.1rem;
+    margin-bottom: 1.3rem;
   }
   .cover-sub {
-    font-size: 0.85rem;
+    font-size: 1rem;
     line-height: 1.65;
     text-align: center;
     opacity: 0.88;
@@ -338,14 +338,14 @@
     height: 100%;
     display: flex;
     align-items: center;
-    gap: 0.9rem;
+    gap: 1.1rem;
     text-align: left;
     background: var(--paper);
     color: var(--ink);
     border: var(--border-w-thin) solid rgba(16,32,26,0.25);
     border-radius: 0 8px 0 0;
     box-shadow: 0 -4px 12px rgba(16,32,26,0.12);
-    padding: 0 1.3rem;
+    padding: 0 1.7rem;
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -364,31 +364,31 @@
   .sheet-top {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
+    gap: 1rem;
     flex: 0 0 auto;
     white-space: nowrap;
   }
 
   .sheet-index {
     font-family: var(--font-mono);
-    font-size: 0.68rem;
+    font-size: 0.78rem;
     color: var(--muted);
     flex: 0 0 auto;
   }
 
   .sheet-icon {
     display: grid;
-    grid-template-columns: repeat(3, 4px);
-    grid-template-rows: repeat(3, 4px);
-    gap: 2px;
+    grid-template-columns: repeat(3, 5px);
+    grid-template-rows: repeat(3, 5px);
+    gap: 3px;
     flex: 0 0 auto;
   }
-  .sheet-icon span { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
+  .sheet-icon span { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
 
   .sheet-title {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1.35rem;
     letter-spacing: -0.01em;
   }
 
@@ -396,9 +396,9 @@
     flex: 1 1 auto;
     min-width: 0;
     font-family: var(--font-body);
-    font-size: 0.78rem;
+    font-size: 0.9rem;
     color: var(--muted);
-    margin-left: 1.1rem;
+    margin-left: 1.3rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -406,7 +406,7 @@
 
   .sheet-arrow {
     flex: 0 0 auto;
-    font-size: 0.9rem;
+    font-size: 1.05rem;
     color: var(--muted);
     margin-left: 0.6rem;
     opacity: 0;
