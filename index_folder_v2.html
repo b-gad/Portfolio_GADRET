@@ -38,8 +38,8 @@
     --motion-mid: 0.35s;
 
     --sheet-base-w: 480px;
-    --sheet-step-w: 18px;
-    --sheet-step-desc: 40px;
+    --sheet-step-w: 6px;
+    --band-h: clamp(52px, 6.4vh, 68px);
     --mobile-rail-h: 64px;
   }
 
@@ -201,6 +201,7 @@
 
   .stack {
     position: relative;
+    display: flow-root;
     max-width: 880px;
     margin: 0 auto;
   }
@@ -221,11 +222,23 @@
 
   body.folder-open .stack-intro { display: none; }
 
-  /* ---- Cover folder (front, static, About content) ---- */
+  /* ---- Cover folder (front, static, About content) ----
+     Sits at the bottom of the pile, directly after the stacked sheets:
+     the wrapper's margin-top reserves exactly the room the 5
+     absolutely-positioned sheet bands occupy above it, so the whole pile
+     reads as one stack. The tab lives on the wrapper, not on .cover
+     itself, because .cover's clip-path would otherwise clip off a child
+     positioned above its own box (negative top falls outside the 0–100%
+     clip region). */
+  .cover-wrap {
+    position: relative;
+    z-index: 10;
+    max-width: 560px;
+    margin: calc(5 * var(--band-h)) auto 0;
+    transition: transform var(--motion-mid) ease, opacity var(--motion-fast) ease;
+  }
   .cover {
     position: relative;
-    max-width: 560px;
-    margin: 2.6rem auto 2.8rem;
     padding: 2.6rem 2.4rem 2.2rem;
     background: var(--accent);
     color: var(--cream);
@@ -233,7 +246,6 @@
     border-radius: 10px 10px 0 0;
     clip-path: polygon(0 0, 100% 0, 97% 100%, 3% 100%);
     box-shadow: var(--shadow-sm);
-    transition: transform var(--motion-mid) ease, opacity var(--motion-fast) ease;
   }
   .cover-tab {
     position: absolute;
@@ -276,42 +288,67 @@
     letter-spacing: -0.005em;
   }
 
-  .stack.has-open .cover {
+  .stack.has-open .cover-wrap {
     opacity: 0;
     pointer-events: none;
     transform: translateY(40px);
   }
 
-  /* ---- Sheets (closed state in the stack) ---- */
+  /* ---- Sheets (closed state in the stack) ----
+     Each sheet is a flat band stacked directly under the previous one
+     (top offset = level * band height, no gap), growing a bit wider at
+     each level so a sliver of every sheet behind peeks out on both
+     sides — the classic layered-paper fan. */
   .folder {
-    position: relative;
-    margin-bottom: 22px;
+    position: absolute;
+    top: calc(var(--level) * var(--band-h));
+    left: 50%;
+    width: calc(var(--sheet-base-w) + var(--level) * var(--sheet-step-w) * 2);
+    height: var(--band-h);
+    max-width: calc(100% - 2rem);
+    transform: translateX(-50%);
+    z-index: calc(2 + var(--level));
+    transition: transform var(--motion-fast) ease;
   }
 
-  .folder:last-child { margin-bottom: 0; }
+  .folder.open {
+    position: absolute;
+    inset: 0;
+    width: auto;
+    height: auto;
+    max-width: none;
+    transform: none;
+    z-index: 50;
+  }
 
   .stack.has-open .folder:not(.open) {
     opacity: 0;
     pointer-events: none;
-    transform: translateY(40px);
+    transform: translateX(-50%) translateY(40px);
     transition: opacity 0.2s ease, transform 0.3s ease;
   }
 
+  @media (hover: hover) {
+    .folder:hover { z-index: 60; }
+  }
+  .folder:focus-within { z-index: 60; }
+
   .sheet {
-    width: calc(var(--sheet-base-w) + var(--level) * var(--sheet-step-w) * 2);
-    max-width: 100%;
-    margin: 0 auto;
-    display: block;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
     text-align: left;
     background: var(--paper);
     color: var(--ink);
     border: var(--border-w-thin) solid rgba(16,32,26,0.25);
     border-radius: 0 8px 0 0;
-    box-shadow: 0 3px 12px rgba(16,32,26,0.1);
-    padding: 1rem 1.4rem;
+    box-shadow: 0 -4px 12px rgba(16,32,26,0.12);
+    padding: 0 1.3rem;
     cursor: pointer;
     position: relative;
-    z-index: 2;
+    overflow: hidden;
     transition: transform var(--motion-fast) ease, box-shadow var(--motion-fast) ease;
   }
 
@@ -320,14 +357,16 @@
   .folder.open .sheet { display: none; }
 
   @media (hover: hover) {
-    .sheet:hover { transform: translateY(-6px); box-shadow: 0 10px 22px rgba(16,32,26,0.16); }
+    .folder:hover .sheet { transform: translateY(-6px); box-shadow: 0 10px 24px rgba(16,32,26,0.22); }
+    .folder:hover .sheet-arrow { opacity: 1; transform: translate(2px, -2px); }
   }
 
   .sheet-top {
     display: flex;
     align-items: center;
     gap: 0.8rem;
-    margin-bottom: 0.4rem;
+    flex: 0 0 auto;
+    white-space: nowrap;
   }
 
   .sheet-index {
@@ -349,17 +388,32 @@
   .sheet-title {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     letter-spacing: -0.01em;
-    flex: 1 1 auto;
   }
 
   .sheet-desc {
-    display: block;
+    flex: 1 1 auto;
+    min-width: 0;
     font-family: var(--font-body);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: var(--muted);
-    margin-left: calc(2rem + var(--level) * var(--sheet-step-desc));
+    margin-left: 1.1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sheet-arrow {
+    flex: 0 0 auto;
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-left: 0.6rem;
+    opacity: 0;
+    transition: opacity var(--motion-fast) ease, transform var(--motion-fast) ease;
+  }
+  @media (hover: none) {
+    .sheet-arrow { opacity: 1; }
   }
 
   /* ---- Folder panel (open state) ----
@@ -368,6 +422,11 @@
      get distorted by a transform: scale. */
   .folder-panel {
     position: absolute;
+    /* Default to the folder's own box so an invisible, closed panel
+       never sizes to its (unconstrained) content and bloats page
+       scroll height; JS drives top/left/width/height inline while
+       growing/shrinking the open panel. */
+    inset: 0;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -646,7 +705,7 @@
 
   /* ============ Mobile ============ */
   @media (max-width: 860px) {
-    :root { --sheet-step-w: 0px; --sheet-step-desc: 0px; }
+    :root { --sheet-step-w: 0px; }
     .app { flex-direction: column; }
     .rail {
       position: sticky; top: 0; width: 100%; height: auto;
@@ -668,9 +727,12 @@
     .rail-tagline { display: none; }
 
     .main { padding: 1.2rem 1rem 3rem; }
-    .sheet { width: 100%; }
-    .sheet-desc { margin-left: 2rem; }
-    .cover { margin: 1.6rem auto 2rem; padding: 2.2rem 1.6rem 1.8rem; }
+    .folder:not(.open) { width: 100%; max-width: 100%; left: 0; transform: none; }
+    .stack.has-open .folder:not(.open) { transform: translateY(40px); }
+    .sheet { padding: 0 1rem; gap: 0.6rem; }
+    .sheet-desc { margin-left: 0.8rem; }
+    .cover-wrap { max-width: 100%; margin: calc(5 * var(--band-h)) auto 0; }
+    .cover { padding: 2.2rem 1.6rem 1.8rem; }
     .folder.open {
       position: fixed; top: var(--mobile-rail-h); left: 0; right: 0; bottom: 0; z-index: 90;
     }
@@ -708,15 +770,9 @@
   </aside>
 
   <main class="main">
+    <p class="stack-intro">Select a folder to open<span class="intro-arrow">↓</span></p>
+
     <div class="stack" id="stack">
-      <section class="cover">
-        <div class="cover-tab"></div>
-        <p class="cover-lede">Born and raised in Bordeaux, now based in Paris and studying at Arts et Métiers in Lille (ENSAM). Welcome to my portfolio — the best way to get to know me.</p>
-        <p class="cover-sub">I grew up surrounded by engineers, oval balls, and sheet music. A twin by birth, a photographer by passion, a rugby player by nature. Engineering is just the way I found to tie it all together.</p>
-      </section>
-
-      <p class="stack-intro">Select a folder to open<span class="intro-arrow">↓</span></p>
-
       <!-- ===== FOLDER: Projects ===== -->
       <div class="folder" data-section="projects" style="--level:0">
         <button class="sheet" id="tab-projects" aria-expanded="false" aria-controls="folder-projects" onclick="openFolder('projects')">
@@ -726,6 +782,7 @@
             <span class="sheet-title">Projects</span>
           </span>
           <span class="sheet-desc">Shoulder prosthesis · Photovoltaic system · Sand casting · CNN · Hydrogen fuel cell</span>
+          <span class="sheet-arrow">↗</span>
         </button>
         <div class="folder-panel" id="folder-projects">
           <div class="folder-panel-head">
@@ -829,6 +886,7 @@
             <span class="sheet-title">Education</span>
           </span>
           <span class="sheet-desc">Master of Engineering · Preparatory Classes (CPGE) · Baccalauréat</span>
+          <span class="sheet-arrow">↗</span>
         </button>
         <div class="folder-panel" id="folder-education">
           <div class="folder-panel-head">
@@ -877,6 +935,7 @@
             <span class="sheet-title">Experience</span>
           </span>
           <span class="sheet-desc">Engineering Intern · Corporate Relations Team · Project Manager · Private Tutor · Vineyard &amp; Winery Worker</span>
+          <span class="sheet-arrow">↗</span>
         </button>
         <div class="folder-panel" id="folder-experience">
           <div class="folder-panel-head">
@@ -963,6 +1022,7 @@
             <span class="sheet-title">Extracurricular</span>
           </span>
           <span class="sheet-desc">Rugby · Mountaineering · Sailing · Volunteering · Nepal · Piano · Photography</span>
+          <span class="sheet-arrow">↗</span>
         </button>
         <div class="folder-panel" id="folder-extracurricular">
           <div class="folder-panel-head">
@@ -1046,6 +1106,7 @@
             <span class="sheet-title">Skills</span>
           </span>
           <span class="sheet-desc">Mechanical Engineering · Programming · CAD &amp; Design · Fabrication · Tools · Languages</span>
+          <span class="sheet-arrow">↗</span>
         </button>
         <div class="folder-panel" id="folder-skills">
           <div class="folder-panel-head">
@@ -1110,6 +1171,13 @@
         </div>
       </div>
 
+      <div class="cover-wrap">
+        <div class="cover-tab"></div>
+        <section class="cover">
+          <p class="cover-lede">Born and raised in Bordeaux, now based in Paris and studying at Arts et Métiers in Lille (ENSAM). Welcome to my portfolio — the best way to get to know me.</p>
+          <p class="cover-sub">I grew up surrounded by engineers, oval balls, and sheet music. A twin by birth, a photographer by passion, a rugby player by nature. Engineering is just the way I found to tie it all together.</p>
+        </section>
+      </div>
     </div>
   </main>
 </div>
