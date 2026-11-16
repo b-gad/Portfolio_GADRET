@@ -197,6 +197,11 @@
     flex: 1 1 auto;
     min-width: 0;
     padding: 2.6rem 3rem;
+    transition: padding var(--motion-mid) ease;
+  }
+
+  body.folder-open .main {
+    padding: 1.4rem;
   }
 
   .stack {
@@ -204,10 +209,14 @@
     display: flow-root;
     max-width: 880px;
     margin: 0 auto;
+    transition: max-width var(--motion-mid) ease;
   }
 
+  /* While a folder is open, let it fill nearly the whole main area
+     instead of staying capped at the pile's own (narrower) max-width. */
   body.folder-open .stack {
-    min-height: calc(100vh - 5.2rem);
+    max-width: none;
+    min-height: calc(100vh - 2.8rem);
   }
 
   .stack-intro {
