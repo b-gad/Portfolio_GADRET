@@ -37,9 +37,9 @@
     --motion-fast: 0.2s;
     --motion-mid: 0.35s;
 
-    --sheet-base-w: 580px;
-    --sheet-step-w: 9px;
-    --band-h: clamp(64px, 7.6vh, 86px);
+    --sheet-base-w: 660px;
+    --sheet-step-w: 10px;
+    --band-h: clamp(72px, 8.4vh, 96px);
     --mobile-rail-h: 64px;
   }
 
@@ -104,10 +104,7 @@
     border: var(--border-w-thin) solid var(--paper);
     display: block;
     margin: 0 auto;
-    transition: max-height var(--motion-mid) ease;
   }
-
-  body.folder-open .rail-photo { max-height: 68px; }
 
   .rail-id { display: flex; flex-direction: column; gap: 0.3rem; }
 
@@ -202,7 +199,7 @@
   .stack {
     position: relative;
     display: flow-root;
-    max-width: 980px;
+    max-width: 1100px;
     margin: 0 auto;
   }
 
@@ -233,13 +230,13 @@
   .cover-wrap {
     position: relative;
     z-index: 10;
-    max-width: 680px;
+    max-width: 760px;
     margin: calc(5 * var(--band-h)) auto 0;
     transition: transform var(--motion-mid) ease, opacity var(--motion-fast) ease;
   }
   .cover {
     position: relative;
-    padding: 3.2rem 3rem 2.8rem;
+    padding: 3.6rem 3.4rem 3.2rem;
     background: var(--accent);
     color: var(--cream);
     border: var(--border-w-thin) solid var(--ink);
@@ -275,13 +272,13 @@
     font-family: var(--font-display);
     font-weight: 700;
     letter-spacing: -0.015em;
-    font-size: 1.35rem;
+    font-size: 1.5rem;
     line-height: 1.55;
     text-align: center;
-    margin-bottom: 1.3rem;
+    margin-bottom: 1.4rem;
   }
   .cover-sub {
-    font-size: 1rem;
+    font-size: 1.1rem;
     line-height: 1.65;
     text-align: center;
     opacity: 0.88;
@@ -338,14 +335,14 @@
     height: 100%;
     display: flex;
     align-items: center;
-    gap: 1.1rem;
+    gap: 1.3rem;
     text-align: left;
     background: var(--paper);
     color: var(--ink);
     border: var(--border-w-thin) solid rgba(16,32,26,0.25);
     border-radius: 0 8px 0 0;
     box-shadow: 0 -4px 12px rgba(16,32,26,0.12);
-    padding: 0 1.7rem;
+    padding: 0 2rem;
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -371,24 +368,24 @@
 
   .sheet-index {
     font-family: var(--font-mono);
-    font-size: 0.78rem;
+    font-size: 0.85rem;
     color: var(--muted);
     flex: 0 0 auto;
   }
 
   .sheet-icon {
     display: grid;
-    grid-template-columns: repeat(3, 5px);
-    grid-template-rows: repeat(3, 5px);
-    gap: 3px;
+    grid-template-columns: repeat(3, 6px);
+    grid-template-rows: repeat(3, 6px);
+    gap: 4px;
     flex: 0 0 auto;
   }
-  .sheet-icon span { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+  .sheet-icon span { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
 
   .sheet-title {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 1.35rem;
+    font-size: 1.55rem;
     letter-spacing: -0.01em;
   }
 
@@ -396,9 +393,9 @@
     flex: 1 1 auto;
     min-width: 0;
     font-family: var(--font-body);
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: var(--muted);
-    margin-left: 1.3rem;
+    margin-left: 1.4rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -406,7 +403,7 @@
 
   .sheet-arrow {
     flex: 0 0 auto;
-    font-size: 1.05rem;
+    font-size: 1.2rem;
     color: var(--muted);
     margin-left: 0.6rem;
     opacity: 0;
