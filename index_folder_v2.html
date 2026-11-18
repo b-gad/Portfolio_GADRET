@@ -769,11 +769,60 @@
     <p class="stack-intro">Select a folder to open<span class="intro-arrow">↓</span></p>
 
     <div class="stack" id="stack">
-      <!-- ===== FOLDER: Projects ===== -->
-      <div class="folder" data-section="projects" style="--level:0">
-        <button class="sheet" id="tab-projects" aria-expanded="false" aria-controls="folder-projects" onclick="openFolder('projects')">
+      <!-- ===== FOLDER: Education ===== -->
+      <div class="folder" data-section="education" style="--level:0">
+        <button class="sheet" id="tab-education" aria-expanded="false" aria-controls="folder-education" onclick="openFolder('education')">
           <span class="sheet-top">
             <span class="sheet-index">01</span>
+            <span class="sheet-icon"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span>
+            <span class="sheet-title">Education</span>
+          </span>
+          <span class="sheet-desc">Master of Engineering · Preparatory Classes (CPGE) · Baccalauréat</span>
+          <span class="sheet-arrow">↗</span>
+        </button>
+        <div class="folder-panel" id="folder-education">
+          <div class="folder-panel-head">
+            <span class="head-label">Education</span>
+            <button class="folder-close" aria-label="Close folder" onclick="closeFolder()">×</button>
+          </div>
+          <div class="folder-scroll">
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-date">2025 — 2028</div>
+                <div class="timeline-content">
+                  <div class="school">ENSAM — Arts et Métiers</div>
+                  <h3>Master of Engineering</h3>
+                  <p>General engineering program with a strong focus on Mechanical and Industrial engineering, covering design, manufacturing, and applied sciences.</p>
+                  <div class="timeline-gpa">GPA 3.93 / 4.0</div>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-date">2023 — 2025</div>
+                <div class="timeline-content">
+                  <div class="school">Preparatory Classes (CPGE) — La Salle Passy Buzenval</div>
+                  <h3>Undergraduate intensive program</h3>
+                  <p>Two-year intensive program in Mathematics, Physics, and Engineering Sciences.</p>
+                  <div class="timeline-gpa">GPA 4.00 / 4.0</div>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-date">2020 — 2023</div>
+                <div class="timeline-content">
+                  <div class="school">Lycée La Rochefoucauld</div>
+                  <h3>Baccalauréat</h3>
+                  <p>French high school diploma. Specializing in Mathematics, Physics, and Life &amp; Earth Sciences.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== FOLDER: Projects ===== -->
+      <div class="folder" data-section="projects" style="--level:1">
+        <button class="sheet" id="tab-projects" aria-expanded="false" aria-controls="folder-projects" onclick="openFolder('projects')">
+          <span class="sheet-top">
+            <span class="sheet-index">02</span>
             <span class="sheet-icon"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span>
             <span class="sheet-title">Projects</span>
           </span>
@@ -876,55 +925,6 @@
                 </div>
               </div>
 
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== FOLDER: Education ===== -->
-      <div class="folder" data-section="education" style="--level:1">
-        <button class="sheet" id="tab-education" aria-expanded="false" aria-controls="folder-education" onclick="openFolder('education')">
-          <span class="sheet-top">
-            <span class="sheet-index">02</span>
-            <span class="sheet-icon"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span>
-            <span class="sheet-title">Education</span>
-          </span>
-          <span class="sheet-desc">Master of Engineering · Preparatory Classes (CPGE) · Baccalauréat</span>
-          <span class="sheet-arrow">↗</span>
-        </button>
-        <div class="folder-panel" id="folder-education">
-          <div class="folder-panel-head">
-            <span class="head-label">Education</span>
-            <button class="folder-close" aria-label="Close folder" onclick="closeFolder()">×</button>
-          </div>
-          <div class="folder-scroll">
-            <div class="timeline">
-              <div class="timeline-item">
-                <div class="timeline-date">2025 — 2028</div>
-                <div class="timeline-content">
-                  <div class="school">ENSAM — Arts et Métiers</div>
-                  <h3>Master of Engineering</h3>
-                  <p>General engineering program with a strong focus on Mechanical and Industrial engineering, covering design, manufacturing, and applied sciences.</p>
-                  <div class="timeline-gpa">GPA 3.93 / 4.0</div>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-date">2023 — 2025</div>
-                <div class="timeline-content">
-                  <div class="school">Preparatory Classes (CPGE) — La Salle Passy Buzenval</div>
-                  <h3>Undergraduate intensive program</h3>
-                  <p>Two-year intensive program in Mathematics, Physics, and Engineering Sciences.</p>
-                  <div class="timeline-gpa">GPA 4.00 / 4.0</div>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-date">2020 — 2023</div>
-                <div class="timeline-content">
-                  <div class="school">Lycée La Rochefoucauld</div>
-                  <h3>Baccalauréat</h3>
-                  <p>French high school diploma. Specializing in Mathematics, Physics, and Life &amp; Earth Sciences.</p>
-                </div>
-              </div>
             </div>
           </div>
         </div>
