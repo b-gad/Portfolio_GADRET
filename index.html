@@ -284,6 +284,10 @@
     opacity: 0.88;
     letter-spacing: -0.005em;
   }
+  .cover-lede, .cover-sub {
+    user-select: none;
+    -webkit-user-select: none;
+  }
 
   .stack.has-open .cover-wrap {
     opacity: 0;
@@ -1175,8 +1179,8 @@
       <div class="cover-wrap">
         <div class="cover-tab"></div>
         <section class="cover">
-          <p class="cover-lede">Born and raised in Bordeaux, now based in Paris and studying at Arts et Métiers in Lille (ENSAM). Welcome to my portfolio — the best way to get to know me.</p>
-          <p class="cover-sub">I grew up surrounded by engineers, oval balls, and sheet music. A twin by birth, a photographer by passion, a rugby player by nature. Engineering is just the way I found to tie it all together.</p>
+          <p class="cover-lede" oncopy="return false" oncontextmenu="return false">Born and raised in Bordeaux, now based in Paris and studying at Arts et Métiers in Lille (ENSAM). Welcome to my portfolio — the best way to get to know me.</p>
+          <p class="cover-sub" oncopy="return false" oncontextmenu="return false">I grew up surrounded by engineers, oval balls, and sheet music. A twin by birth, a photographer by passion, a rugby player by nature. Engineering is just the way I found to tie it all together.</p>
         </section>
       </div>
     </div>
